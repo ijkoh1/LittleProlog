@@ -1,5 +1,6 @@
 package com.example.acer.littleprolog;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -12,8 +13,8 @@ public class ReadQuery {
     private List<String> objects;
     public ReadQuery(String answer){
         this.answer = answer;
-        this.predicate = null;
-        this.objects = null;
+        this.predicate = "";
+        this.objects = new ArrayList<>();
         this.extract();
     }
 
@@ -24,24 +25,24 @@ public class ReadQuery {
             if (start != 1 && end != -1){
                 this.predicate = this.answer.substring(0,start);
                 String object = this.answer.substring(start+1,end);
-                String[] tmpObjects = this.answer.split(",");
+                String[] tmpObjects = object.split(",");
                 for (String obj: tmpObjects) {
                     this.objects.add(obj);
                 }
             }
-            if (this.answer.charAt(this.answer.length()-1) == '.'){
-                if (this.predicate == null){
-                    this.predicate = this.answer.substring(0,this.answer.length()-1);
-                }
+        }
+        if (this.answer.charAt(this.answer.length()-1) == '.'){
+            if (this.predicate.equals("")){
+                this.predicate = this.answer.substring(0,this.answer.length()-1);
             }
         }
     }
 
-    private String getPredicate(){
+    public String getPredicate(){
         return this.predicate;
     }
 
-    private List<String> getObjects(){
+    public List<String> getObjects(){
         return this.objects;
     }
 }

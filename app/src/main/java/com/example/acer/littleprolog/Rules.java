@@ -65,14 +65,14 @@ public class Rules {
 
     public String scan(String predicate, String objectKey, Integer queryCount){
         if (rulesDict.containsKey(predicate)){
-            List<String> rulesObject = rulesDict.get(predicate).getValue();
+            List<List<String>> rulesObject = rulesDict.get(predicate).getValuePair();
             if (queryCount < rulesDict.size()){
                 if (objectKey == null){
-                    return Character.toString(rulesObject.get(queryCount).charAt(0));
+                    return rulesObject.get(queryCount).get(0);
                 }
                 else{
-                    if (Character.toString(rulesObject.get(queryCount).charAt(1)).equals(objectKey)){
-                        return Character.toString(rulesObject.get(queryCount).charAt(0));
+                    if (rulesObject.get(queryCount).get(1).equals(objectKey)){
+                        return rulesObject.get(queryCount).get(0);
                     }
                 }
             }
@@ -90,7 +90,7 @@ public class Rules {
         Boolean rejected = false;
         Boolean result = false;
         if (this.rulesDict.containsKey(predicate)) {
-            if (queryObject == null) {
+            if (queryObject.size() == 0) {
                 rulesObject = this.rulesDict.get(predicate).getValue();
                 for (String rule : rulesObject) {
                     if (rule.contains("/*") || rule.contains("*/")) {
@@ -104,27 +104,39 @@ public class Rules {
                         String content = rule.replace("write('", "");
                         content = content.replace("')", "");
                         System.out.print(content);
-                    } else if (rule.contains("read")) {
+                    }
+                    else if (rule.contains("read")) {
                         String content = rule.replace("read(", "");
                         content = content.replace(")", "");
                         String variableName = content;
                         Scanner input = new Scanner(System.in);
                         Integer value = Integer.parseInt(input.next());
+                        varList.declareVariable(variableName);
                         varList.assgnVariable(variableName, value);
-                    } else {
+                    }
+                    else {
                         String[] expression = rule.split(" ");
-                        if (expression.length == 3) {
+                        Integer opCount = 0;
+                        for (String exp:expression) {
+                            if (containsOperator(exp)){
+                                opCount += 1;
+                            }
+                        }
+                        if (opCount == 1) {
                             Expression exp = new Expression(varList.getValue(expression[0]), expression[1], varList.getValue(expression[2]));
                             result = exp.getResult();
-                        } else if (expression.length == 5) {
-                            Expression subExp = new Expression(varList.getValue(expression[2]), expression[3], varList.getValue(expression[4]));
+                        } else if (opCount == 2) {
+                            Expression subExp = new Expression(varList.getValue(Character.toString(expression[2].charAt(0))), Character.toString(expression[2].charAt(1)), varList.getValue(Character.toString(expression[2].charAt(2))));
                             Expression exp = new Expression(varList.getValue(expression[0]), expression[1], subExp);
                             result = exp.getResult();
                         }
+                        if (!result) {
+                            rejected = true;
+                        }
                     }
-                    if (!result) {
-                        rejected = true;
-                    }
+                }
+                if (!rejected){
+                    return true;
                 }
             }
             else{
@@ -141,9 +153,6 @@ public class Rules {
                         return true;
                     }
                 }
-            }
-            if (queryObject == null && !rejected){
-                return true;
             }
         }
         return false;

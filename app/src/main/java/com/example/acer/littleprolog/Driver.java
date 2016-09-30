@@ -10,7 +10,7 @@ import java.util.List;
 
 public class Driver {
     public static void main(String[] args){
-        new Driver().callBack();
+        new Driver().callBack2();
     }
 
     public void callBack(){
@@ -18,10 +18,13 @@ public class Driver {
         Rules rules = new Rules();
         rules = fileRead.read(rules);
         System.out.println(rules.getHash().get("animal").getValuePair());
-        List<List<String>> bla = new ArrayList<List<String>>();
         List<String> a = new ArrayList<String>();
         a.add("lion");
-        bla.add(a);
         System.out.println(rules.checks("animal", a));
+    }
+
+    public void callBack2(){
+        LittleProlog lp = new LittleProlog("example1");
+        lp.run();
     }
 }
