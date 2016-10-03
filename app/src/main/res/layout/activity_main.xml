@@ -10,8 +10,133 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.example.acer.littleprolog.Main">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hello World!" />
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:id="@+id/menu_bar"
+        android:weightSum="1"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
+
+        <Button
+            android:text="Clear"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:id="@+id/clear_button"
+            android:textSize="11sp"
+            android:background="@drawable/top_left_border"
+            android:layout_weight="0.20" />
+
+        <Button
+            android:text="Open"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:id="@+id/open_button"
+            android:textSize="11sp"
+            android:background="@drawable/top_left_border"
+            android:layout_weight="0.20"/>
+
+        <Button
+            android:text="Run"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:id="@+id/run_button"
+            android:textSize="11sp"
+            android:background="@drawable/top_left_border"
+            android:layout_weight="0.20"/>
+
+        <Button
+            android:text="Save"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:id="@+id/save_button"
+            android:textSize="11sp"
+            android:background="@drawable/top_left_border"
+            android:layout_weight="0.20"/>
+
+        <Button
+            android:text="Tools"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:id="@+id/tools_button"
+            android:textSize="11sp"
+            android:background="@drawable/top_left_right_border"
+            android:layout_weight="0.20"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:id="@+id/parent_layout"
+        android:layout_width="match_parent"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_height="225dp">
+
+        <ScrollView
+            android:layout_width="179dp"
+            android:layout_height="match_parent"
+            android:id="@+id/block_container"
+            android:background="@drawable/all_border">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/block_container_linlay"
+                android:orientation="vertical">
+                <include layout="@layout/equal"/>
+                <include layout="@layout/add"/>
+                <include layout="@layout/minus"/>
+                <include layout="@layout/multiply"/>
+                <include layout="@layout/divide"/>
+                <include layout="@layout/less_equal"/>
+                <include layout="@layout/more_equal"/>
+                <include layout="@layout/less_than"/>
+                <include layout="@layout/more_than"/>
+            </LinearLayout>
+
+        </ScrollView>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="215dp"
+            android:layout_height="match_parent"
+            android:id="@+id/middle_block">
+
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="151dp"
+                android:id="@+id/editor1"
+                android:background="@drawable/top_bottom_border">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/editor1_linlay"
+                    android:orientation="vertical">
+                </LinearLayout>
+
+            </ScrollView>
+
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/editor2"
+                android:background="@drawable/bottom_only_border">
+
+            </ScrollView>
+
+        </LinearLayout>
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/console"
+            android:background="@drawable/all_border">
+
+        </ScrollView>
+    </LinearLayout>
+
 </RelativeLayout>
