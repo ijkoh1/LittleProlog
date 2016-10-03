@@ -4,42 +4,52 @@
 
     <LinearLayout
         android:orientation="horizontal"
-        android:id="@+id/add_box"
-        android:background="@drawable/predicate_back"
+        android:id="@+id/single_pred_box"
+        android:background="@drawable/all_border"
         android:layout_height="30dp"
-        android:layout_width="85dp"
+        android:layout_width="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true">
 
         <EditText
-            android:layout_width="25dp"
+            android:layout_width="50dp"
             android:layout_height="25dp"
             android:inputType="textPersonName"
             android:ems="10"
-            android:id="@+id/empty1"
+            android:id="@+id/pred1"
             android:layout_marginLeft="5dp"
             android:layout_gravity="center_vertical"
             android:background="@drawable/all_border"/>
 
         <TextView
-            android:text="+"
+            android:text="("
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/add_sign"
+            android:id="@+id/open_bracket_sign"
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="5dp"
             android:textColor="@android:color/black" />
 
         <EditText
-            android:layout_width="25dp"
+            android:layout_width="50dp"
             android:layout_height="25dp"
             android:inputType="textPersonName"
             android:ems="10"
-            android:id="@+id/empty2"
+            android:id="@+id/editConst1"
             android:layout_marginLeft="5dp"
             android:layout_gravity="center_vertical"
             android:background="@drawable/all_border"/>
+
+        <TextView
+            android:text=")"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/close_bracket_sign"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:textColor="@android:color/black" />
 
     </LinearLayout>
 

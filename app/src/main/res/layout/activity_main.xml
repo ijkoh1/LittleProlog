@@ -8,7 +8,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.example.acer.littleprolog.Main">
+    tools:context="com.example.acer.littleprolog.MainActivity">
 
     <LinearLayout
         android:orientation="horizontal"
@@ -57,13 +57,22 @@
             android:layout_weight="0.20"/>
 
         <Button
+            android:text="Delete"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:id="@+id/delete_button"
+            android:textSize="11sp"
+            android:background="@drawable/top_left_border"
+            android:layout_weight="0.20"/>
+
+        <Button
             android:text="Tools"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:id="@+id/tools_button"
             android:textSize="11sp"
             android:background="@drawable/top_left_right_border"
-            android:layout_weight="0.20"/>
+            android:layout_weight="0"/>
     </LinearLayout>
 
     <LinearLayout
@@ -73,7 +82,8 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_height="225dp">
+        android:layout_height="match_parent"
+        android:layout_marginTop="30dp">
 
         <ScrollView
             android:layout_width="179dp"
@@ -86,7 +96,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/block_container_linlay"
                 android:orientation="vertical">
-                <include layout="@layout/equal"/>
+                <!--<include layout="@layout/equal"/>
                 <include layout="@layout/add"/>
                 <include layout="@layout/minus"/>
                 <include layout="@layout/multiply"/>
@@ -94,7 +104,52 @@
                 <include layout="@layout/less_equal"/>
                 <include layout="@layout/more_equal"/>
                 <include layout="@layout/less_than"/>
-                <include layout="@layout/more_than"/>
+                <include layout="@layout/more_than"/>-->
+                <Button
+                    android:text="pred(const)"
+                    android:layout_width="wrap_content"
+                    android:layout_height="39dp"
+                    android:id="@+id/single_constant_button"
+                    android:background="@drawable/all_border"
+                    android:layout_margin="3dp"
+                    android:padding="5dp"/>
+
+                <Button
+                    android:text="pred(const,const)"
+                    android:layout_width="wrap_content"
+                    android:layout_height="39dp"
+                    android:id="@+id/double_constant_button"
+                    android:background="@drawable/all_border"
+                    android:layout_margin="3dp"
+                    android:padding="5dp"/>
+
+                <Button
+                    android:text="WRITE('')"
+                    android:layout_width="wrap_content"
+                    android:layout_height="39dp"
+                    android:id="@+id/write_button"
+                    android:background="@drawable/all_border"
+                    android:layout_margin="3dp"
+                    android:padding="5dp"/>
+
+                <Button
+                    android:text="READ('')"
+                    android:layout_width="wrap_content"
+                    android:layout_height="39dp"
+                    android:id="@+id/read_button"
+                    android:background="@drawable/all_border"
+                    android:layout_margin="3dp"
+                    android:padding="5dp"/>
+
+                <Button
+                    android:text="operator button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="39dp"
+                    android:id="@+id/operator_button"
+                    android:background="@drawable/all_border"
+                    android:layout_margin="3dp"
+                    android:padding="5dp"/>
+
             </LinearLayout>
 
         </ScrollView>
@@ -114,6 +169,7 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:padding="3dp"
                     android:id="@+id/editor1_linlay"
                     android:orientation="vertical">
                 </LinearLayout>
@@ -126,6 +182,18 @@
                 android:id="@+id/editor2"
                 android:background="@drawable/bottom_only_border">
 
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/editor2_linlay"
+                    android:orientation="vertical">
+
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/editor2_edit" />
+                </LinearLayout>
+
             </ScrollView>
 
         </LinearLayout>
@@ -135,6 +203,13 @@
             android:layout_height="match_parent"
             android:id="@+id/console"
             android:background="@drawable/all_border">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/console_linlay"
+                android:orientation="vertical">
+            </LinearLayout>
 
         </ScrollView>
     </LinearLayout>

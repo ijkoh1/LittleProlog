@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/equal"
+        android:title="__ equal to __"/>
+
+    <item
+        android:id="@+id/more_equal"
+        android:title="__ more than/equal __"/>
+
+    <item
+        android:id="@+id/less_equal"
+        android:title="__ less than/equal __"/>
+
+    <item
+        android:id="@+id/more_than"
+        android:title="__ more than __"/>
+
+    <item
+        android:id="@+id/less_than"
+        android:title="__ less than __"/>
+    <item
+        android:id="@+id/add"
+        android:title=" __ + __"/>
+
+    <item
+        android:id="@+id/minus"
+        android:title="__ - __"/>
+
+    <item
+        android:id="@+id/mult"
+        android:title="__ * __"/>
+
+    <item
+        android:id="@+id/div"
+        android:title="__ / __"/>
+
+</menu>

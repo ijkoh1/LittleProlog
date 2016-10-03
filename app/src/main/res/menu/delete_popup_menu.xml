@@ -11,6 +11,6 @@
 
     <item
         android:id="@+id/deleteAll"
-        android:title="clearAll"/>
+        android:title="Clear All"/>
 
 </menu>

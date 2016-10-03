@@ -7,11 +7,8 @@ package com.example.acer.littleprolog;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
-import com.example.ivan.myapplication.MainActivity;
 
 public class Operators_CustLayout extends RelativeLayout {
 
