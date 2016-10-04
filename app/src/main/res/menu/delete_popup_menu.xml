@@ -2,8 +2,12 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/deleteEditor"
+        android:id="@+id/deleteEditor1"
         android:title="Clear Editor"/>
+
+    <item
+        android:id="@+id/deleteEditor2"
+        android:title="Clear Query Editor"/>
 
     <item
         android:id="@+id/deleteConsole"

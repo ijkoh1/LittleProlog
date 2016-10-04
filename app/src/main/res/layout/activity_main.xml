@@ -86,7 +86,7 @@
         android:layout_marginTop="30dp">
 
         <ScrollView
-            android:layout_width="179dp"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:id="@+id/block_container"
             android:background="@drawable/all_border">
@@ -96,15 +96,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/block_container_linlay"
                 android:orientation="vertical">
-                <!--<include layout="@layout/equal"/>
-                <include layout="@layout/add"/>
-                <include layout="@layout/minus"/>
-                <include layout="@layout/multiply"/>
-                <include layout="@layout/divide"/>
-                <include layout="@layout/less_equal"/>
-                <include layout="@layout/more_equal"/>
-                <include layout="@layout/less_than"/>
-                <include layout="@layout/more_than"/>-->
+
                 <Button
                     android:text="pred(const)"
                     android:layout_width="wrap_content"
@@ -154,61 +146,76 @@
 
         </ScrollView>
 
-        <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="215dp"
+        <ScrollView
+            android:layout_width="219dp"
             android:layout_height="match_parent"
-            android:id="@+id/middle_block">
+            android:id="@+id/editor1"
+            android:background="@drawable/block_editor">
 
-            <ScrollView
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="151dp"
-                android:id="@+id/editor1"
-                android:background="@drawable/top_bottom_border">
+                android:layout_height="wrap_content"
+                android:padding="3dp"
+                android:id="@+id/editor1_linlay"
+                android:orientation="vertical">
 
-                <LinearLayout
-                    android:layout_width="match_parent"
+                <TextView
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:padding="3dp"
-                    android:id="@+id/editor1_linlay"
-                    android:orientation="vertical">
-                </LinearLayout>
+                    android:text="Place Block Here: "
+                    android:textColor="#000000"
+                    android:padding="1dp"/>
+            </LinearLayout>
 
-            </ScrollView>
+        </ScrollView>
 
-            <ScrollView
+        <ScrollView
+            android:layout_width="249dp"
+            android:layout_height="match_parent"
+            android:id="@+id/editor2"
+            android:background="@drawable/query_box">
+
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:id="@+id/editor2"
-                android:background="@drawable/bottom_only_border">
+                android:layout_height="wrap_content"
+                android:id="@+id/editor2_linlay"
+                android:orientation="vertical">
 
-                <LinearLayout
-                    android:layout_width="match_parent"
+                <TextView
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/editor2_linlay"
-                    android:orientation="vertical">
+                    android:text="Insert Query"
+                    android:textColor="#000000"
+                    android:padding="5dp"/>
 
-                    <EditText
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/editor2_edit" />
-                </LinearLayout>
+                <EditText
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/editor2_edit"/>
 
-            </ScrollView>
+            </LinearLayout>
 
-        </LinearLayout>
+        </ScrollView>
 
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:id="@+id/console"
-            android:background="@drawable/all_border">
+            android:background="@drawable/console">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/console_linlay"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:background="#000000">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Display Console"
+                    android:textColor="#FFFFFF"/>
+
             </LinearLayout>
 
         </ScrollView>

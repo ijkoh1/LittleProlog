@@ -1,16 +1,21 @@
 package com.example.acer.littleprolog;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.PopupMenu;
 import android.widget.PopupMenu.OnMenuItemClickListener;
-import android.view.MenuItem;
 
 public class MainActivity extends AppCompatActivity {
 
     private LinearLayout blockContainer,editorBox1,consoleBox;
+    private EditText editorBox2;
+    private Button clear_btn,open_btn,run_btn,save_btn,tools_btn,delete_btn,single_const_btn,
+            double_const_btn,write_btn,read_btn,operator_btn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,8 +25,24 @@ public class MainActivity extends AppCompatActivity {
         editorBox1 = (LinearLayout) findViewById(R.id.editor1_linlay);
         consoleBox = (LinearLayout) findViewById(R.id.console_linlay);
 
+        editorBox2 = (EditText) findViewById(R.id.editor2_edit) ;
+
+        clear_btn = (Button)findViewById(R.id.clear_button);
+        open_btn = (Button)findViewById(R.id.open_button);
+        run_btn = (Button)findViewById(R.id.run_button);
+        save_btn = (Button)findViewById(R.id.save_button);
+        tools_btn = (Button)findViewById(R.id.tools_button);
+        delete_btn = (Button)findViewById(R.id.delete_button);
+        single_const_btn = (Button)findViewById(R.id.single_constant_button);
+        double_const_btn = (Button)findViewById(R.id.double_constant_button);
+        write_btn = (Button)findViewById(R.id.write_button);
+        read_btn = (Button)findViewById(R.id.read_button);
+        operator_btn = (Button)findViewById(R.id.operator_button);
+
+        editorBox2.setText("?- ");
+
         //on click listener for clear button
-        findViewById(R.id.clear_button).setOnClickListener(new View.OnClickListener() {
+        clear_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 PopupMenu popupMenu = new PopupMenu(MainActivity.this, view);
@@ -30,9 +51,13 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public boolean onMenuItemClick(MenuItem item) {
                         switch (item.getItemId()) {
-                            case R.id.deleteEditor:
+                            case R.id.deleteEditor1:
                                 if((editorBox1).getChildCount() > 0)
                                 (editorBox1).removeAllViews();
+                                return true;
+
+                            case R.id.deleteEditor2:
+                                editorBox2.setText("?- ");
                                 return true;
 
                             case R.id.deleteConsole:
@@ -60,7 +85,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         //listener for open button
-        findViewById(R.id.open_button).setOnClickListener(new View.OnClickListener() {
+        open_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 PopupMenu popupMenu = new PopupMenu(MainActivity.this, view);
@@ -78,16 +103,17 @@ public class MainActivity extends AppCompatActivity {
         });
 
         //listener for delete button
-        findViewById(R.id.delete_button).setOnLongClickListener(new View.OnLongClickListener() {
+        delete_btn.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
-                editorBox1.removeView(view);
+                if((editorBox1).getChildCount() > 0)
+                    (editorBox1).removeView(view);
                 return true;
             }
         });
 
         //listener for tools button
-        findViewById(R.id.tools_button).setOnClickListener(new View.OnClickListener() {
+        tools_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 PopupMenu popupMenu = new PopupMenu(MainActivity.this, view);
@@ -105,7 +131,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         //listener for single constant button
-        findViewById(R.id.single_constant_button).setOnClickListener(new View.OnClickListener() {
+        single_const_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 final DisplaySingleConstant singleConstButton = new DisplaySingleConstant(MainActivity.this);
@@ -114,7 +140,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         //listener for double constant button
-        findViewById(R.id.double_constant_button).setOnClickListener(new View.OnClickListener() {
+        double_const_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 final DisplayDoubleConstant doubleConstButton= new DisplayDoubleConstant(MainActivity.this);
@@ -122,17 +148,9 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        //listener for write constant button
-        findViewById(R.id.write_button).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                final DisplayDoubleConstant doubleConstButton= new DisplayDoubleConstant(MainActivity.this);
-                editorBox1.addView(doubleConstButton);
-            }
-        });
 
         //listener for write button
-        findViewById(R.id.write_button).setOnClickListener(new View.OnClickListener() {
+        write_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 final WriteClass writeButton= new WriteClass(MainActivity.this);
@@ -141,7 +159,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         //listener for read button
-        findViewById(R.id.read_button).setOnClickListener(new View.OnClickListener() {
+        read_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 final ReadClass readButton= new ReadClass(MainActivity.this);
@@ -149,7 +167,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        findViewById(R.id.operator_button).setOnClickListener(new View.OnClickListener() {
+        operator_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 PopupMenu popupMenu = new PopupMenu(MainActivity.this, view);

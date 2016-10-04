@@ -3,23 +3,23 @@
 
     <item
         android:id="@+id/equal"
-        android:title="__ equal to __"/>
+        android:title="__ = __"/>
 
     <item
         android:id="@+id/more_equal"
-        android:title="__ more than/equal __"/>
+        android:title="__ &gt;= __"/>
 
     <item
         android:id="@+id/less_equal"
-        android:title="__ less than/equal __"/>
+        android:title="__ &lt;= __"/>
 
     <item
         android:id="@+id/more_than"
-        android:title="__ more than __"/>
+        android:title="__ &gt; __"/>
 
     <item
         android:id="@+id/less_than"
-        android:title="__ less than __"/>
+        android:title="__ &lt; __"/>
     <item
         android:id="@+id/add"
         android:title=" __ + __"/>
