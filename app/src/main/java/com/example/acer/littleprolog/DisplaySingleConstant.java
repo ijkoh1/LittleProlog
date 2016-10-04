@@ -34,11 +34,6 @@ public class DisplaySingleConstant extends RelativeLayout{
 
         inflate(getContext(),R.layout.single_pred,this);
 
-        setBackgroundColor(getResources().getColor(R.color.predicateColor));
-
-        int padding_5dp = (int)getResources().getDimension(R.dimen.operators_padding);
-        setPadding(padding_5dp,padding_5dp,padding_5dp,padding_5dp);
-
         this.edit_box1 = (EditText)findViewById(R.id.editConst1);
         this.edit_box2 = (EditText)findViewById(R.id.editConst2);
         this.pred_box1 = (EditText) findViewById(R.id.pred1);

@@ -34,11 +34,6 @@ public class WriteClass extends RelativeLayout{
 
         inflate(getContext(),R.layout.write,this);
 
-        setBackgroundColor(getResources().getColor(R.color.writeColor));
-
-        int padding_5dp = (int)getResources().getDimension(R.dimen.operators_padding);
-        setPadding(padding_5dp,padding_5dp,padding_5dp,padding_5dp);
-
         this.write_box = (EditText) findViewById(R.id.editWrite);
         this.write_sign = (TextView)findViewById(R.id.write_sign);
         this.open_wr = (TextView)findViewById(R.id.open_bracket_sign_wr);

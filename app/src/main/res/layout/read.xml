@@ -5,7 +5,7 @@
     <LinearLayout
         android:orientation="horizontal"
         android:id="@+id/single_pred_box"
-        android:background="@drawable/all_border"
+        android:background="@drawable/read_back"
         android:layout_height="30dp"
         android:layout_width="wrap_content"
         android:layout_alignParentTop="true"
@@ -13,7 +13,7 @@
         android:layout_alignParentStart="true">
 
         <TextView
-            android:text="write"
+            android:text="read"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/read_sign"
@@ -38,7 +38,7 @@
             android:layout_marginLeft="5dp"
             android:layout_gravity="center_vertical"
             android:background="@drawable/all_border"
-            android:layout_width="50dp" />
+            android:layout_width="60dp" />
 
         <TextView
             android:text="')"
