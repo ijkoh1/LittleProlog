@@ -242,13 +242,11 @@
                     android:text="Display Console"
                     android:textColor="#FFFFFF"/>
 
-                <LinearLayout
-                    android:layout_width="match_parent"
+                <TextView
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/console_linlay"
-                    android:orientation="vertical"
-                    android:background="#000000">
-                </LinearLayout>
+                    android:id="@+id/console_text"
+                    android:textColor="#FFFFFF"/>
 
             </LinearLayout>
 

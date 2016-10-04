@@ -12,7 +12,7 @@ import android.widget.TextView;
 
 public class DisplayDoubleConstant extends RelativeLayout{
 
-    private EditText pred_box2,edit_box1,edit_box2,edit_box3;
+    private EditText pred_box2,edit_box2,edit_box3;
     private TextView open,close,comma;
 
     public DisplayDoubleConstant(Context context){
@@ -34,7 +34,6 @@ public class DisplayDoubleConstant extends RelativeLayout{
 
         inflate(getContext(),R.layout.double_pred,this);
 
-        this.edit_box1 = (EditText)findViewById(R.id.editConst1);
         this.edit_box2 = (EditText)findViewById(R.id.editConst2);
         this.edit_box3 = (EditText) findViewById(R.id.editConst3);
         this.pred_box2 = (EditText) findViewById(R.id.pred2);
@@ -43,5 +42,15 @@ public class DisplayDoubleConstant extends RelativeLayout{
         this.comma = (TextView)findViewById(R.id.comma_sign);
     }
 
+    public EditText getPredicate(){
+        return this.pred_box2;
+    }
 
+    public EditText getConstant(){
+        return this.edit_box2;
+    }
+
+    public EditText getConstant2(){
+        return this.edit_box3;
+    }
 }
