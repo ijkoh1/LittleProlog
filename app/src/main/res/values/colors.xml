@@ -5,6 +5,9 @@
     <color name="colorAccent">#FF4081</color>
     <color name="operatorsColor">#ffff00</color>
     <color name="predicateColor">#FFFFFF</color>
-    <color name="writeColor">#66ffff</color>
+    <color name="writeColor">#00ffff</color>
     <color name="readColor">#FF4081</color>
+    <color name="startColor">#ffb380</color>
+    <color name="endColor">#ff471a</color>
+    <color name="highlightColor">#ccffff</color>
 </resources>

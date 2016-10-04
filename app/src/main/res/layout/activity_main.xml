@@ -98,6 +98,24 @@
                 android:orientation="vertical">
 
                 <Button
+                    android:text="START:- "
+                    android:layout_width="wrap_content"
+                    android:layout_height="39dp"
+                    android:id="@+id/start_button"
+                    android:background="@drawable/all_border"
+                    android:layout_margin="3dp"
+                    android:padding="5dp"/>
+
+                <Button
+                    android:text="END"
+                    android:layout_width="wrap_content"
+                    android:layout_height="39dp"
+                    android:id="@+id/end_button"
+                    android:background="@drawable/all_border"
+                    android:layout_margin="3dp"
+                    android:padding="5dp"/>
+
+                <Button
                     android:text="pred(const)"
                     android:layout_width="wrap_content"
                     android:layout_height="39dp"
@@ -147,7 +165,7 @@
         </ScrollView>
 
         <ScrollView
-            android:layout_width="219dp"
+            android:layout_width="265dp"
             android:layout_height="match_parent"
             android:id="@+id/editor1"
             android:background="@drawable/block_editor">
@@ -156,7 +174,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="3dp"
-                android:id="@+id/editor1_linlay"
+                android:id="@+id/editor1_column"
                 android:orientation="vertical">
 
                 <TextView
@@ -165,12 +183,20 @@
                     android:text="Place Block Here: "
                     android:textColor="#000000"
                     android:padding="1dp"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="1dp"
+                    android:id="@+id/editor1_linlay"
+                    android:orientation="vertical">
+                </LinearLayout>
             </LinearLayout>
 
         </ScrollView>
 
         <ScrollView
-            android:layout_width="249dp"
+            android:layout_width="125dp"
             android:layout_height="match_parent"
             android:id="@+id/editor2"
             android:background="@drawable/query_box">
@@ -206,7 +232,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/console_linlay"
+                android:id="@+id/console_column"
                 android:orientation="vertical"
                 android:background="#000000">
 
@@ -215,6 +241,14 @@
                     android:layout_height="wrap_content"
                     android:text="Display Console"
                     android:textColor="#FFFFFF"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/console_linlay"
+                    android:orientation="vertical"
+                    android:background="#000000">
+                </LinearLayout>
 
             </LinearLayout>
 

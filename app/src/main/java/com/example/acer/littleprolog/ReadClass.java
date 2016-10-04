@@ -34,11 +34,6 @@ public class ReadClass extends RelativeLayout{
 
         inflate(getContext(),R.layout.read,this);
 
-        setBackgroundColor(getResources().getColor(R.color.readColor));
-
-        int padding_5dp = (int)getResources().getDimension(R.dimen.operators_padding);
-        setPadding(padding_5dp,padding_5dp,padding_5dp,padding_5dp);
-
         this.read_box = (EditText) findViewById(R.id.editRead);
         this.read_sign = (TextView)findViewById(R.id.read_sign);
         this.open_wr = (TextView)findViewById(R.id.open_bracket_sign_wr);
