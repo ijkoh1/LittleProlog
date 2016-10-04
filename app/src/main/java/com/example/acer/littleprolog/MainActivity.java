@@ -9,7 +9,12 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.PopupMenu;
 import android.widget.PopupMenu.OnMenuItemClickListener;
+import android.widget.ScrollView;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -19,7 +24,11 @@ public class MainActivity extends AppCompatActivity {
     private Button clear_btn,open_btn,run_btn,save_btn,tools_btn,delete_btn,single_const_btn,
             double_const_btn,write_btn,read_btn,operator_btn,start_btn,end_btn;
     private View selectedView;
+    private TextView console;
 
+    private Rules rules = new Rules();
+    String predicate = "";
+    Integer count = 0;
     //set public class for long click
     public class selectLongClick implements View.OnLongClickListener{
         @Override
@@ -37,8 +46,7 @@ public class MainActivity extends AppCompatActivity {
 
         //initiate linear layout
         editorBox1 = (LinearLayout) findViewById(R.id.editor1_linlay);
-        consoleBox = (LinearLayout) findViewById(R.id.console_linlay);
-
+        console = (TextView) findViewById(R.id.console_text);
         //initiate edit text
         editorBox2 = (EditText) findViewById(R.id.editor2_edit) ;
 
@@ -81,8 +89,7 @@ public class MainActivity extends AppCompatActivity {
                                 return true;
 
                             case R.id.deleteConsole:
-                                if((consoleBox).getChildCount() > 0)
-                                (consoleBox).removeAllViews();
+                                console.setText("");
                                 return true;
 
                             case R.id.deleteAll:
@@ -135,11 +142,11 @@ public class MainActivity extends AppCompatActivity {
                         switch (item.getItemId()) {
 
                             case R.id.run_rules_facts:
-                                //functions goes here
+                                addPredicates();
                                 return true;
 
                             case R.id.run_query:
-                                //funtion goes here
+                                checkQueryLine();
                                 return true;
                         }
                         return true;
@@ -288,7 +295,53 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void checkQueryLine(){
+        String editorBox1Text = editorBox2.getText().toString();
+        String[] lines = editorBox1Text.split("\n");
+        LittleProlog littleProlog = new LittleProlog(this.rules);
+        console = (TextView) console.findViewById(R.id.console_text);
+        for (String line:lines) {
+            line = line.replace("?- ","");
+            System.out.println(line);
+            if (line.endsWith(".")){
+                console.append(littleProlog.runQuery(line,"",0));
+                Integer index = line.indexOf("(");
+                predicate = line.substring(0,index);
+                System.out.println(predicate);
+            }
+            else if (line.equals(";")){
+                count += 1;
+                System.out.println(predicate + count);
+                console.append(littleProlog.runQuery(line,predicate,count));
+            }
+        }
+    }
 
+    public void addPredicates(){
+        WriteRules write = new WriteRules(this.rules);
+        this.rules.clearHash();
+        for (int x = 0; x < editorBox1.getChildCount(); x++){
+            View theBlock = (View) editorBox1.getChildAt(x);
+            if (theBlock instanceof DisplaySingleConstant) {
+                DisplaySingleConstant currentBlock = (DisplaySingleConstant) theBlock;
+                EditText predicateName = (EditText) currentBlock.findViewById(R.id.pred1);
+                EditText factArgument = (EditText) currentBlock.findViewById(R.id.editConst1);
+                List<String> arguments = new ArrayList<>();
+                arguments.add(factArgument.getText().toString());
+                System.out.println(arguments.get(0));
+                write.addPredicateVersion1(predicateName.getText().toString(),arguments);
+            }
+            else if (theBlock instanceof DisplayDoubleConstant){
+                DisplayDoubleConstant currentBlock = (DisplayDoubleConstant) theBlock;
+                EditText predicateName = (EditText) currentBlock.findViewById(R.id.pred2);
+                EditText factArgument = (EditText) currentBlock.findViewById(R.id.editConst2);
+                EditText factArgument2 = (EditText) currentBlock.findViewById(R.id.editConst3);
+                List<String> arguments = new ArrayList<>();
+                arguments.add(factArgument.getText().toString());
+                arguments.add(factArgument2.getText().toString());
+                write.addPredicateVersion1(predicateName.getText().toString(),arguments);
+            }
+        }
+        this.rules = write.getRules();
     }
 }
 

@@ -14,13 +14,10 @@ import static java.lang.Character.isUpperCase;
 public class LittleProlog {
     private Rules rules;
     private Integer queryCount;
-    private ReadRules readRules;
     private String answer;
-    public LittleProlog(String fileName){
-        readRules = new ReadRules(fileName);
+    public LittleProlog(Rules rulesInput){
         queryCount = 0;
-        this.rules = new Rules();
-        this.rules = readRules.read(this.rules);
+        this.rules = rulesInput;
         this.answer = "";
     }
 
@@ -111,22 +108,20 @@ public class LittleProlog {
         this.answer = input.next();
     }
 
-    public String runQuery(String query){
-        String predicate = "";
+    public String runQuery(String query, String predicate, Integer count){
         List<String> objects = new ArrayList<>();
         Boolean twoParameters = false;
         Boolean specialQuery = false;
         String output;
         if (query.equals(";")){
-            if (specialQuery){
-                if (twoParameters){
-                    output = this.rules.scan(predicate,objects.get(1), this.queryCount);
+            if (twoParameters){
+                    output = this.rules.scan(predicate,objects.get(1), count);
                 }
                 else{
-                    output = this.rules.scan(predicate,null,this.queryCount);
+                    output = this.rules.scan(predicate,null,count);
                 }
                 if (output == null){
-                    this.queryCount = 0;
+                    count = 0;
                     specialQuery = false;
                     return "\nNo";
                 }
@@ -136,7 +131,6 @@ public class LittleProlog {
                     return output + ".";
                 }
             }
-        }
         else{
             ReadQuery readQuery = new ReadQuery(query);
             predicate = readQuery.getPredicate();
@@ -146,15 +140,15 @@ public class LittleProlog {
                 if (predicate != null && objects.size() != 0){
                     if (!objects.get(0).contains(" ") && !isDigit(objects.get(0).charAt(0)) && isUpperCase(objects.get(0).charAt(0))){
                         if (objects.size() > 1){
-                            output = this.rules.scan(predicate,objects.get(1),this.queryCount);
+                            output = this.rules.scan(predicate,objects.get(1),count);
                             twoParameters = true;
                         }
                         else{
-                            output = this.rules.scan(predicate,null,this.queryCount);
+                            output = this.rules.scan(predicate,null,count);
                             twoParameters = false;
                         }
                         if (output == null){
-                            this.queryCount = 0;
+                            count = 0;
                             specialQuery = false;
                             return "\nNo";
                         }

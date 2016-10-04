@@ -10,7 +10,7 @@ import java.util.List;
 
 public class Driver {
     public static void main(String[] args){
-        new Driver().callBack2();
+        new Driver().callBack3();
     }
 
     public void callBack(){
@@ -24,7 +24,20 @@ public class Driver {
     }
 
     public void callBack2(){
-        LittleProlog lp = new LittleProlog("example1");
-        System.out.println(lp.runQuery("animal(lion)."));
+        Rules rules = new Rules();
+        ReadRules fileRead = new ReadRules("example1");
+        rules = fileRead.read(rules);
+        LittleProlog lp = new LittleProlog(rules);
+        System.out.println(lp.runQuery("animal(X).","",0));
+        System.out.println(lp.runQuery(";","animal",1));
+        System.out.println(lp.runQuery(";","animal",2));
+    }
+
+    public void callBack3(){
+        Rules rules = new Rules();
+        ReadRules fileRead = new ReadRules("example1");
+        rules = fileRead.read(rules);
+        LittleProlog lp = new LittleProlog(rules);
+        lp.run();
     }
 }

@@ -35,11 +35,17 @@ public class DisplaySingleConstant extends RelativeLayout{
         inflate(getContext(),R.layout.single_pred,this);
 
         this.edit_box1 = (EditText)findViewById(R.id.editConst1);
-        this.edit_box2 = (EditText)findViewById(R.id.editConst2);
         this.pred_box1 = (EditText) findViewById(R.id.pred1);
         this.open = (TextView)findViewById(R.id.open_bracket_sign);
         this.close = (TextView)findViewById(R.id.close_bracket_sign);
     }
 
+    public EditText getPredicate(){
+        return this.pred_box1;
+    }
+
+    public EditText getConstant(){
+        return this.edit_box1;
+    }
 
 }
