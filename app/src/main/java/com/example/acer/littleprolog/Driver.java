@@ -25,6 +25,6 @@ public class Driver {
 
     public void callBack2(){
         LittleProlog lp = new LittleProlog("example1");
-        lp.run();
+        System.out.println(lp.runQuery("animal(lion)."));
     }
 }

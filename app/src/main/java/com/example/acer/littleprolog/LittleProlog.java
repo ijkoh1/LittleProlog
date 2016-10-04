@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Scanner;
 
 import static java.lang.Character.isDigit;
+import static java.lang.Character.isUpperCase;
 
 /**
  * Created by Acer on 30/9/2016.
@@ -61,7 +62,7 @@ public class LittleProlog {
 //                System.out.println(predicate + " " + objects);
                 if (objects != null){
                     if (predicate != null && objects.size() != 0){
-                        if (!objects.get(0).contains(" ") && !isDigit(objects.get(0).charAt(0))){
+                        if (!objects.get(0).contains(" ") && !isDigit(objects.get(0).charAt(0)) && isUpperCase(objects.get(0).charAt(0))){
                             if (objects.size() > 1){
                                 output = this.rules.scan(predicate,objects.get(1),this.queryCount);
                                 twoParameters = true;
@@ -108,5 +109,81 @@ public class LittleProlog {
         Scanner input = new Scanner(System.in);
         System.out.print("? - ");
         this.answer = input.next();
+    }
+
+    public String runQuery(String query){
+        String predicate = "";
+        List<String> objects = new ArrayList<>();
+        Boolean twoParameters = false;
+        Boolean specialQuery = false;
+        String output;
+        if (query.equals(";")){
+            if (specialQuery){
+                if (twoParameters){
+                    output = this.rules.scan(predicate,objects.get(1), this.queryCount);
+                }
+                else{
+                    output = this.rules.scan(predicate,null,this.queryCount);
+                }
+                if (output == null){
+                    this.queryCount = 0;
+                    specialQuery = false;
+                    return "\nNo";
+                }
+                else{
+                    this.queryCount += 1;
+                    specialQuery = true;
+                    return output + ".";
+                }
+            }
+        }
+        else{
+            ReadQuery readQuery = new ReadQuery(query);
+            predicate = readQuery.getPredicate();
+            objects = readQuery.getObjects();
+//            System.out.println(predicate + " " + objects);
+            if (objects != null){
+                if (predicate != null && objects.size() != 0){
+                    if (!objects.get(0).contains(" ") && !isDigit(objects.get(0).charAt(0)) && isUpperCase(objects.get(0).charAt(0))){
+                        if (objects.size() > 1){
+                            output = this.rules.scan(predicate,objects.get(1),this.queryCount);
+                            twoParameters = true;
+                        }
+                        else{
+                            output = this.rules.scan(predicate,null,this.queryCount);
+                            twoParameters = false;
+                        }
+                        if (output == null){
+                            this.queryCount = 0;
+                            specialQuery = false;
+                            return "\nNo";
+                        }
+                        else{
+                            this.queryCount += 1;
+                            specialQuery = true;
+                            return output + ".";
+                        }
+                    }
+                    else{
+                        if (this.rules.checks(predicate,objects)){
+                            return "\nYes";
+                        }
+                        else{
+                            return "\nNo";
+                        }
+                    }
+                }
+                else{
+                    System.out.println(predicate);
+                    if (this.rules.checks(predicate,objects)){
+                        return "\nYes";
+                    }
+                    else{
+                        return "\nNo";
+                    }
+                }
+            }
+        }
+        return "";
     }
 }
