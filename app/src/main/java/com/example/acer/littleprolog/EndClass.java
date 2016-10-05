@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 public class EndClass extends RelativeLayout{
 
+    //Initialize variable
     private TextView end_btn;
 
     public EndClass(Context context){
@@ -21,20 +22,12 @@ public class EndClass extends RelativeLayout{
         init();
     }
 
-    public EndClass(Context context, AttributeSet attrs){
-        super(context,attrs);
-        init();
-    }
-
-    public EndClass(Context context, AttributeSet attrs, int defStyle){
-        super(context,attrs,defStyle);
-        init();
-    }
-
     private void init() {
 
+        //display end box
         inflate(getContext(),R.layout.end,this);
 
+        //get content of the box
         this.end_btn = (TextView) findViewById(R.id.end_symbol);
     }
 

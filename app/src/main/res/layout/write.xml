@@ -38,7 +38,8 @@
             android:layout_marginLeft="5dp"
             android:layout_gravity="center_vertical"
             android:background="@drawable/all_border"
-            android:layout_width="60dp" />
+            android:layout_width="60dp"
+            android:paddingLeft="2dp"/>
 
         <TextView
             android:text="')"

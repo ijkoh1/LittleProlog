@@ -2,6 +2,7 @@
 *   @DATE CREATED: 2 OCT 2016
 *   @DATE MODIFIED: 5 OCT 2016
 *   @PURPOSE: This is the custom view class to display operators.
+*             This is just a draft and to be used for second iteration.
 * */
 
 package com.example.acer.littleprolog;
@@ -14,6 +15,7 @@ import android.widget.TextView;
 
 public class Operators_CustLayout extends RelativeLayout {
 
+    //Initialize all the variables
     private EditText edit_box1,edit_box2;
     private TextView more_eq_sign,less_eq_sign,more_than_sign,less_than_sign,
             eq,add,minus,mult,divide;

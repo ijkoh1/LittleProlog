@@ -3,7 +3,7 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
-    <color name="operatorsColor">#ffff00</color>
+    <color name="operatorsColor">#ffff4d</color>
     <color name="predicateColor">#FFFFFF</color>
     <color name="writeColor">#00ffff</color>
     <color name="readColor">#FF4081</color>

@@ -102,7 +102,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="39dp"
                     android:id="@+id/start_button"
-                    android:background="@drawable/all_border"
+                    android:background="@drawable/start_back"
                     android:layout_margin="3dp"
                     android:padding="5dp"/>
 
@@ -111,7 +111,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="39dp"
                     android:id="@+id/end_button"
-                    android:background="@drawable/all_border"
+                    android:background="@drawable/end_back"
                     android:layout_margin="3dp"
                     android:padding="5dp"/>
 
@@ -120,7 +120,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="39dp"
                     android:id="@+id/single_constant_button"
-                    android:background="@drawable/all_border"
+                    android:background="@drawable/predicate_back"
                     android:layout_margin="3dp"
                     android:padding="5dp"/>
 
@@ -129,7 +129,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="39dp"
                     android:id="@+id/double_constant_button"
-                    android:background="@drawable/all_border"
+                    android:background="@drawable/predicate_back"
                     android:layout_margin="3dp"
                     android:padding="5dp"/>
 
@@ -138,7 +138,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="39dp"
                     android:id="@+id/write_button"
-                    android:background="@drawable/all_border"
+                    android:background="@drawable/write_back"
                     android:layout_margin="3dp"
                     android:padding="5dp"/>
 
@@ -147,7 +147,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="39dp"
                     android:id="@+id/read_button"
-                    android:background="@drawable/all_border"
+                    android:background="@drawable/read_back"
                     android:layout_margin="3dp"
                     android:padding="5dp"/>
 
@@ -156,7 +156,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="39dp"
                     android:id="@+id/operator_button"
-                    android:background="@drawable/all_border"
+                    android:background="@drawable/operators_back"
                     android:layout_margin="3dp"
                     android:padding="5dp"/>
 
@@ -196,7 +196,7 @@
         </ScrollView>
 
         <ScrollView
-            android:layout_width="125dp"
+            android:layout_width="149dp"
             android:layout_height="match_parent"
             android:id="@+id/editor2"
             android:background="@drawable/query_box">

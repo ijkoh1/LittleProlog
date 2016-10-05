@@ -15,7 +15,6 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.PopupMenu;
 import android.widget.PopupMenu.OnMenuItemClickListener;
-import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,6 +23,7 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
+    //initialize global variable
     private LinearLayout blockContainer,editorBox1,consoleBox;
     private EditText editorBox2;
     private Button clear_btn,open_btn,run_btn,save_btn,tools_btn,delete_btn,single_const_btn,
@@ -88,21 +88,24 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public boolean onMenuItemClick(MenuItem item) {
                         switch (item.getItemId()) {
-
-                            case R.id.deleteEditor1:
+                            //when user tap "Clear read and facts"
+                            case R.id.clearEditor1:
                                 if((editorBox1).getChildCount() > 0)    //if there is child in editorBox1
                                 (editorBox1).removeAllViews();
                                 return true;
 
-                            case R.id.deleteEditor2:
+                            //when user tap "clear query"
+                            case R.id.clearEditor2:
                                 editorBox2.setText("?- ");
                                 return true;
 
-                            case R.id.deleteConsole:
+                            //when user tap "clear console"
+                            case R.id.clearConsole:
                                 console.setText("");
                                 return true;
 
-                            case R.id.deleteAll:
+                            //when user tap "clear all"
+                            case R.id.clearAll:
 
                                 if((editorBox1).getChildCount() > 0)
                                 (editorBox1).removeAllViews();
@@ -118,14 +121,14 @@ public class MainActivity extends AppCompatActivity {
                 });
 
                 //shows the popup menu
-                popupMenu.inflate(R.menu.delete_popup_menu);
+                popupMenu.inflate(R.menu.clear_popup_menu);
                 popupMenu.show();
 
 
             }
         });
 
-        //listener for open button
+        //listener for open button (so far this button is a dummy button)
         open_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -147,7 +150,8 @@ public class MainActivity extends AppCompatActivity {
         run_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                PopupMenu popupMenu = new PopupMenu(MainActivity.this, view);
+                PopupMenu popupMenu = new PopupMenu(MainActivity.this, view); //get PopupMenu class
+                //set listener for menu, so that when user click on the button, popup menu will be shown
                 popupMenu.setOnMenuItemClickListener(new OnMenuItemClickListener() {
 
                     @Override
@@ -155,10 +159,12 @@ public class MainActivity extends AppCompatActivity {
 
                         switch (item.getItemId()) {
 
+                            //when user tap "run rule/facts"
                             case R.id.run_rules_facts:
                                 addPredicates();
                                 return true;
 
+                            //when user tap "run query"
                             case R.id.run_query:
                                 checkQueryLine();
                                 return true;
@@ -166,6 +172,8 @@ public class MainActivity extends AppCompatActivity {
                         return true;
                     }
                 });
+
+                //display pop up menu of run
                 popupMenu.inflate(R.menu.run_popup_menu);
                 popupMenu.show();
             }
@@ -182,7 +190,7 @@ public class MainActivity extends AppCompatActivity {
                 }
 
                 //if user has not selected a box, show a toast message
-                else{
+                else if (selectedView == null){
                     Toast.makeText(getApplicationContext(), "Please select block to delete",
                             Toast.LENGTH_LONG).show();
                 }
@@ -193,7 +201,8 @@ public class MainActivity extends AppCompatActivity {
         tools_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                PopupMenu popupMenu = new PopupMenu(MainActivity.this, view);
+                PopupMenu popupMenu = new PopupMenu(MainActivity.this, view);   //get PopupMenu class
+                //set listener for menu, so that when user click on the button, popup menu will be shown
                 popupMenu.setOnMenuItemClickListener(new OnMenuItemClickListener() {
 
                     @Override
@@ -211,9 +220,10 @@ public class MainActivity extends AppCompatActivity {
         start_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                final StartClass startButton= new StartClass(MainActivity.this);
+
+                final StartClass startButton= new StartClass(MainActivity.this);    //initiate StartClass custom view
                 startButton.setOnLongClickListener(new selectLongClick());
-                editorBox1.addView(startButton);
+                editorBox1.addView(startButton);       //add start block into Insert Rules and Facts column
             }
         });
 
@@ -221,9 +231,9 @@ public class MainActivity extends AppCompatActivity {
         end_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                final EndClass endButton= new EndClass(MainActivity.this);
+                final EndClass endButton= new EndClass(MainActivity.this);     //initiate EndClass custom view
                 endButton.setOnLongClickListener(new selectLongClick());
-                editorBox1.addView(endButton);
+                editorBox1.addView(endButton);      //add end block into Insert Rules and Facts column
             }
         });
 
@@ -231,9 +241,9 @@ public class MainActivity extends AppCompatActivity {
         single_const_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                final DisplaySingleConstant singleConstButton = new DisplaySingleConstant(MainActivity.this);
+                final DisplaySingleConstant singleConstButton = new DisplaySingleConstant(MainActivity.this);   //initiate Single Constant Custom View
                 singleConstButton.setOnLongClickListener(new selectLongClick());
-                editorBox1.addView(singleConstButton);
+                editorBox1.addView(singleConstButton);      //add single constant block into Insert Rules and Facts column
             }
         });
 
@@ -241,9 +251,9 @@ public class MainActivity extends AppCompatActivity {
         double_const_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                final DisplayDoubleConstant doubleConstButton= new DisplayDoubleConstant(MainActivity.this);
+                final DisplayDoubleConstant doubleConstButton= new DisplayDoubleConstant(MainActivity.this);       //Initiate double constant custom view
                 doubleConstButton.setOnLongClickListener(new selectLongClick());
-                editorBox1.addView(doubleConstButton);
+                editorBox1.addView(doubleConstButton);         //add double constant block into Insert Rules and Facts column
             }
         });
 
@@ -251,9 +261,9 @@ public class MainActivity extends AppCompatActivity {
         write_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                final WriteClass writeButton= new WriteClass(MainActivity.this);
+                final WriteClass writeButton= new WriteClass(MainActivity.this);    //initiate write class custom view
                 writeButton.setOnLongClickListener(new selectLongClick());
-                editorBox1.addView(writeButton);
+                editorBox1.addView(writeButton);        //add write block into Insert Rules and Facts column
             }
         });
 
@@ -261,19 +271,19 @@ public class MainActivity extends AppCompatActivity {
         read_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                final ReadClass readButton= new ReadClass(MainActivity.this);
+                final ReadClass readButton= new ReadClass(MainActivity.this);       //initiate read button custom view
                 readButton.setOnLongClickListener(new selectLongClick());
-                editorBox1.addView(readButton);
+                editorBox1.addView(readButton);     //add read block into Insert Rules and Facts column
             }
         });
 
         //listener for operator button, to show a operator... But this have not function yet, it
         // will be done in the next iteration.
-
         operator_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                PopupMenu popupMenu = new PopupMenu(MainActivity.this, view);
+                PopupMenu popupMenu = new PopupMenu(MainActivity.this, view);   //get PopupMenu class
+                //set listener for menu, so that when user click on the button, popup menu will be shown
                 popupMenu.setOnMenuItemClickListener(new OnMenuItemClickListener() {
 
                     @Override

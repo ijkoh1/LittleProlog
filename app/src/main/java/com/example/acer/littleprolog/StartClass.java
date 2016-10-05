@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 public class StartClass extends RelativeLayout{
 
+    //initialize variable
     private TextView start_btn;
     private Button delete_btn;
 
@@ -24,20 +25,13 @@ public class StartClass extends RelativeLayout{
         init();
     }
 
-    public StartClass(Context context, AttributeSet attrs){
-        super(context,attrs);
-        init();
-    }
-
-    public StartClass(Context context, AttributeSet attrs, int defStyle){
-        super(context,attrs,defStyle);
-        init();
-    }
 
     private void init() {
 
+        //display start block
         inflate(getContext(),R.layout.start,this);
 
+        //get content of start block
         this.start_btn = (TextView) findViewById(R.id.start_symbol);
     }
 
