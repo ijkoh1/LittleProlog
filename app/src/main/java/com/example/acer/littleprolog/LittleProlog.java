@@ -115,22 +115,22 @@ public class LittleProlog {
         String output;
         if (query.equals(";")){
             if (twoParameters){
-                    output = this.rules.scan(predicate,objects.get(1), count);
-                }
-                else{
-                    output = this.rules.scan(predicate,null,count);
-                }
-                if (output == null){
-                    count = 0;
-                    specialQuery = false;
-                    return "\nNo";
-                }
-                else{
-                    this.queryCount += 1;
-                    specialQuery = true;
-                    return output + ".";
-                }
+                output = this.rules.scan(predicate,objects.get(1), count);
             }
+            else{
+                output = this.rules.scan(predicate,null,count);
+            }
+            if (output == null){
+                count = 0;
+                specialQuery = false;
+                return "\nNo";
+            }
+            else{
+                this.queryCount += 1;
+                specialQuery = true;
+                return "\n" + output + ".";
+            }
+        }
         else{
             ReadQuery readQuery = new ReadQuery(query);
             predicate = readQuery.getPredicate();

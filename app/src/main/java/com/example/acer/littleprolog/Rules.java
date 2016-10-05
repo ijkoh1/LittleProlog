@@ -66,7 +66,7 @@ public class Rules {
     public String scan(String predicate, String objectKey, Integer queryCount){
         if (rulesDict.containsKey(predicate)){
             List<List<String>> rulesObject = rulesDict.get(predicate).getValuePair();
-            if (queryCount < rulesDict.size()){
+            if (queryCount < rulesObject.size()){
                 if (objectKey == null){
                     return rulesObject.get(queryCount).get(0);
                 }

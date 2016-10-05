@@ -299,6 +299,7 @@ public class MainActivity extends AppCompatActivity {
         String[] lines = editorBox1Text.split("\n");
         LittleProlog littleProlog = new LittleProlog(this.rules);
         console = (TextView) console.findViewById(R.id.console_text);
+        count = 0;
         for (String line:lines) {
             line = line.replace("?- ","");
             System.out.println(line);
@@ -306,7 +307,6 @@ public class MainActivity extends AppCompatActivity {
                 console.append(littleProlog.runQuery(line,"",0));
                 Integer index = line.indexOf("(");
                 predicate = line.substring(0,index);
-                System.out.println(predicate);
             }
             else if (line.equals(";")){
                 count += 1;
