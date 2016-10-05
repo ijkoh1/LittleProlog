@@ -33,7 +33,7 @@ public class PopUp_Menu extends LinearLayout {
             public void onClick(View view) {
                 PopupMenu popupMenu = new PopupMenu(DeleteButton.this, view);
                 popupMenu.setOnMenuItemClickListener(DeleteButton.this);
-                popupMenu.inflate(R.menu.delete_popup_menu);
+                popupMenu.inflate(R.menu.clear_popup_menu);
                 popupMenu.show();
             }
         });

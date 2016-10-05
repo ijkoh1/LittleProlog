@@ -5,10 +5,6 @@
         android:title="Get Started"/>
 
     <item
-        android:id="@+id/tutorial"
-        android:title="Tutorial"/>
-
-    <item
         android:id="@+id/checkUpdates"
         android:title="Check Updates"/>
 </menu>

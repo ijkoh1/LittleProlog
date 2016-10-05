@@ -15,7 +15,6 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.PopupMenu;
 import android.widget.PopupMenu.OnMenuItemClickListener;
-import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -88,21 +87,20 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public boolean onMenuItemClick(MenuItem item) {
                         switch (item.getItemId()) {
-
-                            case R.id.deleteEditor1:
+                            case R.id.clearEditor1:
                                 if((editorBox1).getChildCount() > 0)    //if there is child in editorBox1
                                 (editorBox1).removeAllViews();
                                 return true;
 
-                            case R.id.deleteEditor2:
+                            case R.id.clearEditor2:
                                 editorBox2.setText("?- ");
                                 return true;
 
-                            case R.id.deleteConsole:
+                            case R.id.clearConsole:
                                 console.setText("");
                                 return true;
 
-                            case R.id.deleteAll:
+                            case R.id.clearAll:
 
                                 if((editorBox1).getChildCount() > 0)
                                 (editorBox1).removeAllViews();
@@ -118,7 +116,7 @@ public class MainActivity extends AppCompatActivity {
                 });
 
                 //shows the popup menu
-                popupMenu.inflate(R.menu.delete_popup_menu);
+                popupMenu.inflate(R.menu.clear_popup_menu);
                 popupMenu.show();
 
 
@@ -182,7 +180,7 @@ public class MainActivity extends AppCompatActivity {
                 }
 
                 //if user has not selected a box, show a toast message
-                else{
+                else if (selectedView == null){
                     Toast.makeText(getApplicationContext(), "Please select block to delete",
                             Toast.LENGTH_LONG).show();
                 }

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/clearEditor1"
+        android:title="Clear Rules and Facts"/>
+
+    <item
+        android:id="@+id/clearEditor2"
+        android:title="Clear Query"/>
+
+    <item
+        android:id="@+id/clearConsole"
+        android:title="Clear Console"/>
+
+    <item
+        android:id="@+id/clearAll"
+        android:title="Clear All"/>
+
+</menu>

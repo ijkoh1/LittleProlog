@@ -20,7 +20,8 @@
             android:id="@+id/pred1"
             android:layout_marginLeft="5dp"
             android:layout_gravity="center_vertical"
-            android:background="@drawable/all_border"/>
+            android:background="@drawable/all_border"
+            android:paddingLeft="2dp"/>
 
         <TextView
             android:text="("
@@ -39,7 +40,8 @@
             android:id="@+id/editConst1"
             android:layout_marginLeft="5dp"
             android:layout_gravity="center_vertical"
-            android:background="@drawable/all_border"/>
+            android:background="@drawable/all_border"
+            android:paddingLeft="2dp"/>
 
         <TextView
             android:text=")"
