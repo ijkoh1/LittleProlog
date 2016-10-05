@@ -1,3 +1,9 @@
+/*  @AUTHOR: SEONG HAN & IVAN KOH
+*   @DATE CREATED: 29 SEPT 2016
+*   @DATE MODIFIED: 5 OCT 2016
+*   @PURPOSE: This is the main activity class for the application
+* */
+
 package com.example.acer.littleprolog;
 
 import android.os.Bundle;
@@ -18,18 +24,18 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-
     private LinearLayout blockContainer,editorBox1,consoleBox;
     private EditText editorBox2;
     private Button clear_btn,open_btn,run_btn,save_btn,tools_btn,delete_btn,single_const_btn,
             double_const_btn,write_btn,read_btn,operator_btn,start_btn,end_btn;
     private View selectedView;
     private TextView console;
-
     private Rules rules = new Rules();
     String predicate = "";
     Integer count = 0;
-    //set public class for long click
+
+    //set public class for long click (this will be called by delete button, so that when
+    //user long press on the block, the delete button can delete the long-pressed item.
     public class selectLongClick implements View.OnLongClickListener{
         @Override
         public boolean onLongClick(View view) {
@@ -65,6 +71,7 @@ public class MainActivity extends AppCompatActivity {
         start_btn = (Button)findViewById(R.id.start_button) ;
         end_btn = (Button)findViewById(R.id.end_button);
 
+        //set the initial text to editorBox2
         editorBox2.setText("?- ");
 
         selectedView = null;
@@ -73,14 +80,17 @@ public class MainActivity extends AppCompatActivity {
         clear_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View view) {
-                PopupMenu popupMenu = new PopupMenu(MainActivity.this, view);
+
+                PopupMenu popupMenu = new PopupMenu(MainActivity.this, view);   //get PopupMenu class
+                //set listener for menu, so that when user click on the button, popup menu will be shown
                 popupMenu.setOnMenuItemClickListener(new OnMenuItemClickListener() {
 
                     @Override
                     public boolean onMenuItemClick(MenuItem item) {
                         switch (item.getItemId()) {
+
                             case R.id.deleteEditor1:
-                                if((editorBox1).getChildCount() > 0)
+                                if((editorBox1).getChildCount() > 0)    //if there is child in editorBox1
                                 (editorBox1).removeAllViews();
                                 return true;
 
@@ -97,13 +107,17 @@ public class MainActivity extends AppCompatActivity {
                                 if((editorBox1).getChildCount() > 0)
                                 (editorBox1).removeAllViews();
 
-                                if((consoleBox).getChildCount() > 0)
-                                    (consoleBox).removeAllViews();
+                                editorBox2.setText("?- ");
+
+                                console.setText("");
+
                                 return true;
                         }
                         return true;
                     }
                 });
+
+                //shows the popup menu
                 popupMenu.inflate(R.menu.delete_popup_menu);
                 popupMenu.show();
 
@@ -161,10 +175,13 @@ public class MainActivity extends AppCompatActivity {
         delete_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                //if user has selected a box, then proceed to delete the box
                 if (selectedView != null) {
                     editorBox1.removeView(selectedView);
                 }
 
+                //if user has not selected a box, show a toast message
                 else{
                     Toast.makeText(getApplicationContext(), "Please select block to delete",
                             Toast.LENGTH_LONG).show();
@@ -197,7 +214,6 @@ public class MainActivity extends AppCompatActivity {
                 final StartClass startButton= new StartClass(MainActivity.this);
                 startButton.setOnLongClickListener(new selectLongClick());
                 editorBox1.addView(startButton);
-
             }
         });
 
@@ -231,7 +247,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
         //listener for write button
         write_btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -251,6 +266,9 @@ public class MainActivity extends AppCompatActivity {
                 editorBox1.addView(readButton);
             }
         });
+
+        //listener for operator button, to show a operator... But this have not function yet, it
+        // will be done in the next iteration.
 
         operator_btn.setOnClickListener(new View.OnClickListener() {
             @Override

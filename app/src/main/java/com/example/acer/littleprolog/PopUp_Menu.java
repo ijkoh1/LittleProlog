@@ -1,3 +1,9 @@
+/*  @AUTHOR: SEONG HAN
+*   @DATE CREATED: 2 OCT 2016
+*   @DATE MODIFIED: 5 OCT 2016
+*   @PURPOSE: This is just a draft, there is not functionalities in this file.
+* */
+
 package com.example.acer.littleprolog;
 
 import android.content.Context;
@@ -14,9 +20,6 @@ import android.widget.PopupMenu;
 import android.widget.PopupMenu.OnMenuItemClickListener;
 import android.view.MenuItem;
 
-/**
- * Created by Seong Han on 10/2/2016.
- */
 
 public class PopUp_Menu extends LinearLayout {
 

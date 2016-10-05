@@ -1,3 +1,10 @@
+/*  @AUTHOR: SEONG HAN
+*   @DATE CREATED: 3 OCT 2016
+*   @DATE MODIFIED: 5 OCT 2016
+*   @PURPOSE: This is the custom view class to display box for users to insert 1 predicates
+*               and 2 constants.
+* */
+
 package com.example.acer.littleprolog;
 
 import android.content.Context;
@@ -5,10 +12,6 @@ import android.util.AttributeSet;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
-/**
- * Created by Seong Han on 10/3/2016.
- */
 
 public class DisplayDoubleConstant extends RelativeLayout{
 

@@ -1,8 +1,10 @@
-package com.example.acer.littleprolog;
+/*  @AUTHOR: SEONG HAN
+*   @DATE CREATED: 2 OCT 2016
+*   @DATE MODIFIED: 5 OCT 2016
+*   @PURPOSE: This is the custom view class to display operators.
+* */
 
-/**
- * Created by Seong Han on 10/2/2016.
- */
+package com.example.acer.littleprolog;
 
 import android.content.Context;
 import android.util.AttributeSet;
