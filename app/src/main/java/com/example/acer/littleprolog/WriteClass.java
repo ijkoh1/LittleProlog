@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 public class WriteClass extends RelativeLayout{
 
+    //initialize variables
     private EditText write_box;
     private TextView open_wr,close_wr,write_sign;
 
@@ -22,20 +23,13 @@ public class WriteClass extends RelativeLayout{
         init();
     }
 
-    public WriteClass(Context context, AttributeSet attrs){
-        super(context,attrs);
-        init();
-    }
-
-    public WriteClass(Context context, AttributeSet attrs, int defStyle){
-        super(context,attrs,defStyle);
-        init();
-    }
 
     private void init() {
 
+        //show write block
         inflate(getContext(),R.layout.write,this);
 
+        //get content of the write block
         this.write_box = (EditText) findViewById(R.id.editWrite);
         this.write_sign = (TextView)findViewById(R.id.write_sign);
         this.open_wr = (TextView)findViewById(R.id.open_bracket_sign_wr);

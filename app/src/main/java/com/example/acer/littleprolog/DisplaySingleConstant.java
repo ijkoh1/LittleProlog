@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 public class DisplaySingleConstant extends RelativeLayout{
 
+    //Initialize variables
     private EditText pred_box1,edit_box1,edit_box2;
     private TextView open,close;
 
@@ -23,20 +24,12 @@ public class DisplaySingleConstant extends RelativeLayout{
         init();
     }
 
-    public DisplaySingleConstant(Context context, AttributeSet attrs){
-        super(context,attrs);
-        init();
-    }
-
-    public DisplaySingleConstant(Context context, AttributeSet attrs, int defStyle){
-        super(context,attrs,defStyle);
-        init();
-    }
-
     private void init() {
 
+        //show single predicate block
         inflate(getContext(),R.layout.single_pred,this);
 
+        //get all the contents
         this.edit_box1 = (EditText)findViewById(R.id.editConst1);
         this.pred_box1 = (EditText) findViewById(R.id.pred1);
         this.open = (TextView)findViewById(R.id.open_bracket_sign);

@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 public class ReadClass extends RelativeLayout{
 
+    //Initialize variables
     private EditText read_box;
     private TextView open_wr,close_wr,read_sign;
 
@@ -22,20 +23,13 @@ public class ReadClass extends RelativeLayout{
         init();
     }
 
-    public ReadClass(Context context, AttributeSet attrs){
-        super(context,attrs);
-        init();
-    }
-
-    public ReadClass(Context context, AttributeSet attrs, int defStyle){
-        super(context,attrs,defStyle);
-        init();
-    }
 
     private void init() {
 
+        //display read block
         inflate(getContext(),R.layout.read,this);
 
+        //get content of read block
         this.read_box = (EditText) findViewById(R.id.editRead);
         this.read_sign = (TextView)findViewById(R.id.read_sign);
         this.open_wr = (TextView)findViewById(R.id.open_bracket_sign_wr);

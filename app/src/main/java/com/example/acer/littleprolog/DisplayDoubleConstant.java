@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 public class DisplayDoubleConstant extends RelativeLayout{
 
+    //Initialize variable
     private EditText pred_box2,edit_box2,edit_box3;
     private TextView open,close,comma;
 
@@ -23,20 +24,12 @@ public class DisplayDoubleConstant extends RelativeLayout{
         init();
     }
 
-    public DisplayDoubleConstant(Context context, AttributeSet attrs){
-        super(context,attrs);
-        init();
-    }
-
-    public DisplayDoubleConstant(Context context, AttributeSet attrs, int defStyle){
-        super(context,attrs,defStyle);
-        init();
-    }
-
     private void init() {
 
+        //show double predicate block
         inflate(getContext(),R.layout.double_pred,this);
 
+        //get all the contents of the block
         this.edit_box2 = (EditText)findViewById(R.id.editConst2);
         this.edit_box3 = (EditText) findViewById(R.id.editConst3);
         this.pred_box2 = (EditText) findViewById(R.id.pred2);
