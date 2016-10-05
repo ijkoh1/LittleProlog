@@ -7,11 +7,19 @@ import java.util.Scanner;
 import static java.lang.Character.isDigit;
 import static java.lang.Character.isUpperCase;
 
-/**
- * Created by Acer on 30/9/2016.
- */
+/*  @AUTHOR: IVAN KOH
+*   @DATE CREATED: 29 SEPT 2016
+*   @DATE MODIFIED: 5 OCT 2016
+*   @status: "Prototype"
+*   @version: 1
+* */
+
 
 public class LittleProlog {
+    /**
+     * @author: Ivan
+     * @purpose: To have the basic implementation of little prolog such as running query request from the user
+     * */
     private Rules rules;
     private Integer queryCount;
     private String answer;
@@ -22,6 +30,13 @@ public class LittleProlog {
     }
 
     public void run(){
+        /*
+        @desc: Runs the prolog class and accepts text input and checks rules yes/no
+        @param: None
+        @pre: None
+        @post: Runs functions of prolog
+        :return: None
+        */
         String predicate = "";
         List<String> objects = new ArrayList<>();
         Boolean twoParameters = false;
@@ -103,12 +118,26 @@ public class LittleProlog {
     }
 
     public void query(){
+        /*
+        @desc: Asks users for query
+        @param: None
+        @pre: None
+        @post: A query is asked
+        :return: User's input as an answer
+        */
         Scanner input = new Scanner(System.in);
         System.out.print("? - ");
         this.answer = input.next();
     }
 
     public String runQuery(String query, String predicate, Integer count){
+        /*
+        @desc: Runs the prolog class and accepts input and checks rules yes/no
+        @param: None
+        @pre: None
+        @post: Runs functions of prolog
+        :return: None
+        */
         List<String> objects = new ArrayList<>();
         Boolean twoParameters = false;
         Boolean specialQuery = false;

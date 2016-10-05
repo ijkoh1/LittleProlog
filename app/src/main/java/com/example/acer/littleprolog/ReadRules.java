@@ -12,12 +12,20 @@ import java.util.List;
 import java.util.Scanner;
 
 /**
- * Created by Acer on 28/9/2016.
+ * Created by Ivan on 28/9/2016.
+ * Purpose: To read the rules input from a txt file
  */
 
 public class ReadRules {
+    //A buffer to read the files line by line
     private BufferedReader br = null;
     public ReadRules(String fileName){
+        /*
+        @desc: To initialise the values of the filename and the buffer to scan line by line from the txt file
+        @param: None
+        @pre: None
+        @post: the values are initialised
+        */
         try{
             br = new BufferedReader(new FileReader("C:\\Users\\Acer\\Documents\\Monash\\Year 3\\Sem 2\\FIT 3140\\Asgn1\\" + fileName + ".pl"));
         }
@@ -27,6 +35,12 @@ public class ReadRules {
     }
 
     public Rules read(Rules rules){
+        /*
+        @desc: To read the rules from the text file and store into the rules dictionary. Updates the rules dictionary
+        @param: None
+        @pre: Rules - A Rules object which contains the rules dictionary
+        @post: the rules dictionary are updated
+        */
         String predicate = null;
         String ruleString = "";
         Boolean makeFacts = false;

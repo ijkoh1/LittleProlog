@@ -6,35 +6,73 @@ import java.util.List;
 import java.util.Scanner;
 
 /**
- * Created by Acer on 28/9/2016.
+ * Created by Ivan on 28/9/2016.
+ * Purpose: To store and extract the rules in a dictionary
  */
 
 public class Rules {
+    //A dictionary which stores the rules
     private HashMap<String, Rule> rulesDict;
 
     public Rules(){
+        /*
+        @desc: To initialise the values of the rule dictionary
+        @param: None
+        @pre: None
+        @post: the values are initialised
+        */
         rulesDict = new HashMap<String, Rule>();
     }
 
     public boolean isRule(String predicateName){
+        /*
+        @desc: To check if the predicate is in the rules dictionary
+        @param: predicateName - a string which stores the name of the predicate
+        @pre: the rules dictionary should exist
+        @post: the values are initialised
+        */
         return rulesDict.containsKey(predicateName);
     }
 
     public HashMap<String,Rule> getHash(){
+        /*
+        @desc: To retrieve the rules dictionary
+        @param: None
+        @pre: None
+        @post: the values are returned
+        */
         return this.rulesDict;
     }
 
     public void clearHash(){
+        /*
+        @desc: To clear the value of the rules dictionary
+        @param: None
+        @pre: None
+        @post: the rules dictionary are empty
+        */
         rulesDict.clear();
     }
 
     public void declaredRules(String predicateName){
+        /*
+        @desc: To insert predicate into the rules dictionary
+        @param: predicateName - string which stores the predicate name
+        @pre: None
+        @post: the predicate are added into rules dictionary
+        */
         if (!rulesDict.containsKey(predicateName)){
             rulesDict.put(predicateName,null);
         }
     }
 
     public void removeRule(String predicateName){
+        /*
+        @desc: To remove predicate from the rules dictionary
+        @param: predicateName - string which stores the predicate name
+        @pre: None
+        @post: the predicate are removed from rules dictionary
+        */
         if (rulesDict.containsKey(predicateName))
         {
             rulesDict.remove(predicateName);
@@ -42,18 +80,36 @@ public class Rules {
     }
 
     public void assignRules(String predicateName, Rule rule){
+        /*
+        @desc: To insert the value of the predicate into the rules dictionary
+        @param: predicateName - string which stores the predicate name, rule - a Rule object which contains the values of the predicate
+        @pre: None
+        @post: the value of predicate are added into rules dictionary
+        */
         if (rulesDict.containsKey(predicateName)){
             rulesDict.put(predicateName,rule);
         }
     }
 
     public void addRules(String predicateName, List<String> rules){
+        /*
+        @desc: To insert the value of the predicate into the rules dictionary
+        @param: predicateName - string which stores the predicate name, rule - a list of strings which contains the values of the predicate
+        @pre: None
+        @post: the value of predicate are added into rules dictionary
+        */
         if(rulesDict.containsKey(predicateName)){
             rulesDict.get(predicateName).addRules(rules);
         }
     }
 
     public Boolean containsOperator(String expression){
+        /*
+        @desc: To check if the string contains an operator
+        @param: expression - string which stores the expression
+        @pre: None
+        @post: a boolean is returned
+        */
         String[] operators = new String[] {"+","-","/","*","<",">",">=","<=","=="};
         for (String op: operators) {
             if (expression.contains(op)){
@@ -64,6 +120,12 @@ public class Rules {
     }
 
     public String scan(String predicate, String objectKey, Integer queryCount){
+        /*
+        @desc: To search a target value from the predicate value from the rules dictionary
+        @param: predicateName - string which stores the predicate name, objectKey - string used as a KEY constant, queryCount - integer which store the count of predicate search
+        @pre: None
+        @post: the value of target search is returned
+        */
         if (rulesDict.containsKey(predicate)){
             List<List<String>> rulesObject = rulesDict.get(predicate).getValuePair();
             if (queryCount < rulesObject.size()){
@@ -84,6 +146,12 @@ public class Rules {
     }
 
     public Boolean checks(String predicate, List<String> queryObject){
+        /*
+        @desc: Performs a query search and returns a boolean if the query mentioned matches the rules from the rules dictionary
+        @param: predicate - string which stores the predicate name, queryObject - list of string which stores the predicate argument
+        @pre: None
+        @post: a boolean is returned
+        */
         List<String> rulesObject;
         Integer matchNo = 0;
         DeclaredVariables varList = new DeclaredVariables();
