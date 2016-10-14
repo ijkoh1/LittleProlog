@@ -8,10 +8,12 @@ public class TmpData implements java.io.Serializable{
     private Rules currentRules;
     private String query;
     private String console;
-    public TmpData(Rules currentRules, String query, String console){
+    private MetaData metaData;
+    public TmpData(Rules currentRules, String query, String console, MetaData metaData){
         this.currentRules = currentRules;
         this.query = query;
         this.console = console;
+        this.metaData = metaData;
     }
 
     public Rules getRules(){
@@ -24,5 +26,9 @@ public class TmpData implements java.io.Serializable{
 
     public String getConsole(){
         return this.console;
+    }
+
+    public MetaData getMetaData(){
+        return this.metaData;
     }
 }

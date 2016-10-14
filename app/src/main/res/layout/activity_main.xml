@@ -68,10 +68,10 @@
             android:layout_weight="0.20"/>
 
         <Button
-            android:text="Tools"
+            android:text="MetaData"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:id="@+id/tools_button"
+            android:id="@+id/metaData_button"
             android:textSize="11sp"
             android:background="@drawable/top_left_right_border"
             android:layout_weight="0"/>

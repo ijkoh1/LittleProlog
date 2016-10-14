@@ -39,7 +39,7 @@ public class PopUp_Menu extends LinearLayout {
         });
     }*/
 
-    private Button deleteButton, openButton, toolsButton;
+    private Button deleteButton, openButton, metaDataButton;
 
     public PopUp_Menu(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -49,7 +49,7 @@ public class PopUp_Menu extends LinearLayout {
     private void init() {
         this.deleteButton = (Button) findViewById(R.id.clear_button);
         this.openButton = (Button) findViewById(R.id.open_button);
-        this.toolsButton = (Button) findViewById(R.id.tools_button);
+        this.metaDataButton = (Button) findViewById(R.id.metaData_button);
     }
 }
 

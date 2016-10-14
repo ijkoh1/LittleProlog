@@ -30,11 +30,12 @@ public class MainActivity extends AppCompatActivity {
     //initialize global variable
     private LinearLayout blockContainer,editorBox1,consoleBox;
     private EditText editorBox2;
-    private Button clear_btn,open_btn,run_btn,save_btn,tools_btn,delete_btn,single_const_btn,
+    private Button clear_btn,open_btn,run_btn,save_btn,metaData_btn,delete_btn,single_const_btn,
             double_const_btn,write_btn,read_btn,operator_btn,start_btn,end_btn;
     private View selectedView;
     private TextView console;
     private Rules currentRules = new Rules();
+    private MetaData currentMetaData = null;
     String predicate = "";
     Integer count = 0;
 
@@ -65,7 +66,7 @@ public class MainActivity extends AppCompatActivity {
         open_btn = (Button)findViewById(R.id.open_button);
         run_btn = (Button)findViewById(R.id.run_button);
         save_btn = (Button)findViewById(R.id.save_button);
-        tools_btn = (Button)findViewById(R.id.tools_button);
+        metaData_btn = (Button)findViewById(R.id.metaData_button);
         delete_btn = (Button)findViewById(R.id.delete_button);
         single_const_btn = (Button)findViewById(R.id.single_constant_button);
         double_const_btn = (Button)findViewById(R.id.double_constant_button);
@@ -133,22 +134,22 @@ public class MainActivity extends AppCompatActivity {
         });
 
         //listener for open button (so far this button is a dummy button)
-//        open_btn.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                PopupMenu popupMenu = new PopupMenu(MainActivity.this, view);
-//                popupMenu.setOnMenuItemClickListener(new OnMenuItemClickListener() {
-//
-//                    @Override
-//                    public boolean onMenuItemClick(MenuItem item) {
-//                        //insert function
-//                        return true;
-//                    }
-//                });
-//                popupMenu.inflate(R.menu.open_popup_menu);
-//                popupMenu.show();
-//            }
-//        });
+        open_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                PopupMenu popupMenu = new PopupMenu(MainActivity.this, view);
+                popupMenu.setOnMenuItemClickListener(new OnMenuItemClickListener() {
+
+                    @Override
+                    public boolean onMenuItemClick(MenuItem item) {
+                        //insert function
+                        return true;
+                    }
+                });
+                popupMenu.inflate(R.menu.open_popup_menu);
+                popupMenu.show();
+            }
+        });
 
         //listener for run button
         run_btn.setOnClickListener(new View.OnClickListener() {
@@ -202,20 +203,27 @@ public class MainActivity extends AppCompatActivity {
         });
 
         //listener for tools button
-        tools_btn.setOnClickListener(new View.OnClickListener() {
+        metaData_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                PopupMenu popupMenu = new PopupMenu(MainActivity.this, view);   //get PopupMenu class
+                final PopupMenu popupMenu = new PopupMenu(MainActivity.this, view);   //get PopupMenu class
                 //set listener for menu, so that when user click on the button, popup menu will be shown
                 popupMenu.setOnMenuItemClickListener(new OnMenuItemClickListener() {
 
                     @Override
                     public boolean onMenuItemClick(MenuItem item) {
-                        //insert function
+                        switch (item.getItemId()){
+                            case R.id.viewMetaData:
+                                inflateViewMetaDataPopUp();
+                                return true;
+                            case R.id.editMetaData:
+                                inflateEditMetaDataPopUp();
+                                return true;
+                        }
                         return true;
                     }
                 });
-                popupMenu.inflate(R.menu.tools_popup_menu);
+                popupMenu.inflate(R.menu.metadata_popup_menu);
                 popupMenu.show();
             }
         });
@@ -326,6 +334,48 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    public void inflateViewMetaDataPopUp(){
+        final View metaDataPopUpMenu = getLayoutInflater().inflate(R.layout.view_metadata_popup,null);
+        final Dialog dialogWindow = new Dialog(this);
+        EditText authorTextBox = (EditText) metaDataPopUpMenu.findViewById(R.id.author_textBox);
+        EditText emailTextBox = (EditText) metaDataPopUpMenu.findViewById(R.id.email_textBox);
+        EditText descriptionTextBox = (EditText) metaDataPopUpMenu.findViewById(R.id.description_textBox);
+        if (currentMetaData != null){
+            authorTextBox.setText(currentMetaData.getAuthor());
+            emailTextBox.setText(currentMetaData.getEmail());
+            descriptionTextBox.setText(currentMetaData.getDescription());
+        }
+        Button doneButton = (Button) metaDataPopUpMenu.findViewById(R.id.metaDataDone_button);
+        doneButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                dialogWindow.dismiss();
+            }
+        });
+        dialogWindow.setTitle("MetaData Information");
+        dialogWindow.setContentView(metaDataPopUpMenu);
+        dialogWindow.show();
+    }
+
+    public void inflateEditMetaDataPopUp(){
+        final View metaDataPopUpMenu = getLayoutInflater().inflate(R.layout.edit_metadata_popup,null);
+        final Dialog dialogWindow = new Dialog(this);
+        Button saveButton = (Button) metaDataPopUpMenu.findViewById(R.id.metaDataSave_button);
+        saveButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                EditText authorTextBox = (EditText) metaDataPopUpMenu.findViewById(R.id.author_textBox);
+                EditText emailTextBox = (EditText) metaDataPopUpMenu.findViewById(R.id.email_textBox);
+                EditText descriptionTextBox = (EditText) metaDataPopUpMenu.findViewById(R.id.description_textBox);
+                currentMetaData = new MetaData(authorTextBox.getText().toString(),emailTextBox.getText().toString(),descriptionTextBox.getText().toString());
+                dialogWindow.dismiss();
+            }
+        });
+        dialogWindow.setTitle("MetaData Information");
+        dialogWindow.setContentView(metaDataPopUpMenu);
+        dialogWindow.show();
+    }
+
     public void inflateSavePopUp(View v){
         final View savePopUpMenu = getLayoutInflater().inflate(R.layout.save_popup,null);
         final Dialog dialogWindow = new Dialog(this);
@@ -336,16 +386,16 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 TextView aText = (TextView) savePopUpMenu.findViewById(R.id.save_textBox);
-                TmpData tmp = new TmpData(MainActivity.this.currentRules, editorBox2.getText().toString(), console.getText().toString());
+                TmpData tmp = new TmpData(MainActivity.this.currentRules, editorBox2.getText().toString(), console.getText().toString(), currentMetaData);
                 SaveFile save = new SaveFile(tmp);
                 Boolean saved = save.saveFile(aText.getText().toString(), MainActivity.this);
                 if (saved){
-                    console.append("\n-----------------------------\n");
+                    console.append("\n-----------------------------");
                     console.append("\nSave Successful");
                     console.append("\n-----------------------------\n");
                 }
                 else{
-                    console.append("\n-----------------------------\n");
+                    console.append("\n-----------------------------");
                     console.append("\nSave Failed");
                     console.append("\n-----------------------------\n");
                 }
@@ -378,6 +428,7 @@ public class MainActivity extends AppCompatActivity {
                 TmpData newData = load.loadFile(aText.getText().toString(), MainActivity.this);
                 if (newData != null){
                     loadRuleBlocks(newData);
+                    currentMetaData = newData.getMetaData();
                     editorBox2.setText(newData.getQuery());
                     console.setText("");
                     console.append("\n-----------------------------");
@@ -386,7 +437,7 @@ public class MainActivity extends AppCompatActivity {
                     console.append(newData.getConsole());
                 }
                 else{
-                    console.append("\n-----------------------------\n");
+                    console.append("\n-----------------------------");
                     console.append("\nLoad Failed");
                     console.append("\n-----------------------------\n");
                 }
