@@ -28,9 +28,6 @@ public class Driver {
         ReadRules fileRead = new ReadRules("example1");
         rules = fileRead.read(rules);
         LittleProlog lp = new LittleProlog(rules);
-        System.out.println(lp.runQuery("animal(X).","",0));
-        System.out.println(lp.runQuery(";","animal",1));
-        System.out.println(lp.runQuery(";","animal",2));
     }
 
     public void callBack3(){

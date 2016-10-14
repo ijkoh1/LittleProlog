@@ -10,7 +10,7 @@ import java.util.Scanner;
  * Purpose: To store and extract the rules in a dictionary
  */
 
-public class Rules {
+public class Rules implements java.io.Serializable{
     //A dictionary which stores the rules
     private HashMap<String, Rule> rulesDict;
 

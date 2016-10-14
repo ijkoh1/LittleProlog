@@ -184,7 +184,7 @@ public class LittleProlog {
                         else{
                             this.queryCount += 1;
                             specialQuery = true;
-                            return output + ".";
+                            return "\n" + output + ".";
                         }
                     }
                     else{

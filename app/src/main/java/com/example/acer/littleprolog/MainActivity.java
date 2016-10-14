@@ -6,6 +6,7 @@
 
 package com.example.acer.littleprolog;
 
+import android.app.Dialog;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
@@ -19,7 +20,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -30,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
             double_const_btn,write_btn,read_btn,operator_btn,start_btn,end_btn;
     private View selectedView;
     private TextView console;
-    private Rules rules = new Rules();
+    private Rules currentRules = new Rules();
     String predicate = "";
     Integer count = 0;
 
@@ -129,22 +133,22 @@ public class MainActivity extends AppCompatActivity {
         });
 
         //listener for open button (so far this button is a dummy button)
-        open_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                PopupMenu popupMenu = new PopupMenu(MainActivity.this, view);
-                popupMenu.setOnMenuItemClickListener(new OnMenuItemClickListener() {
-
-                    @Override
-                    public boolean onMenuItemClick(MenuItem item) {
-                        //insert function
-                        return true;
-                    }
-                });
-                popupMenu.inflate(R.menu.open_popup_menu);
-                popupMenu.show();
-            }
-        });
+//        open_btn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                PopupMenu popupMenu = new PopupMenu(MainActivity.this, view);
+//                popupMenu.setOnMenuItemClickListener(new OnMenuItemClickListener() {
+//
+//                    @Override
+//                    public boolean onMenuItemClick(MenuItem item) {
+//                        //insert function
+//                        return true;
+//                    }
+//                });
+//                popupMenu.inflate(R.menu.open_popup_menu);
+//                popupMenu.show();
+//            }
+//        });
 
         //listener for run button
         run_btn.setOnClickListener(new View.OnClickListener() {
@@ -161,7 +165,7 @@ public class MainActivity extends AppCompatActivity {
 
                             //when user tap "run rule/facts"
                             case R.id.run_rules_facts:
-                                addPredicates();
+                                currentRules = addPredicates();
                                 return true;
 
                             //when user tap "run query"
@@ -322,10 +326,128 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    public void inflateSavePopUp(View v){
+        final View savePopUpMenu = getLayoutInflater().inflate(R.layout.save_popup,null);
+        final Dialog dialogWindow = new Dialog(this);
+        this.currentRules = addPredicates();
+
+        Button saveButton = (Button) savePopUpMenu.findViewById(R.id.saveFile_button);
+        saveButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                TextView aText = (TextView) savePopUpMenu.findViewById(R.id.save_textBox);
+                TmpData tmp = new TmpData(MainActivity.this.currentRules, editorBox2.getText().toString(), console.getText().toString());
+                SaveFile save = new SaveFile(tmp);
+                Boolean saved = save.saveFile(aText.getText().toString(), MainActivity.this);
+                if (saved){
+                    console.append("\n-----------------------------\n");
+                    console.append("\nSave Successful");
+                    console.append("\n-----------------------------\n");
+                }
+                else{
+                    console.append("\n-----------------------------\n");
+                    console.append("\nSave Failed");
+                    console.append("\n-----------------------------\n");
+                }
+                dialogWindow.dismiss();
+            }
+        });
+
+        Button cancelButton = (Button) savePopUpMenu.findViewById(R.id.saveCancel_button);
+        cancelButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                dialogWindow.dismiss();
+            }
+        });
+        dialogWindow.setTitle("Save File");
+        dialogWindow.setContentView(savePopUpMenu);
+        dialogWindow.show();
+    }
+
+    public void inflateOpenPopUp(View v){
+        final View openPopUpMenu = getLayoutInflater().inflate(R.layout.open_popup,null);
+        final Dialog dialogWindow = new Dialog(this);
+
+        Button loadButton = (Button) openPopUpMenu.findViewById(R.id.loadFile_button);
+        loadButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                TextView aText = (TextView) openPopUpMenu.findViewById(R.id.load_textBox);
+                LoadFile load = new LoadFile();
+                TmpData newData = load.loadFile(aText.getText().toString(), MainActivity.this);
+                if (newData != null){
+                    loadRuleBlocks(newData);
+                    editorBox2.setText(newData.getQuery());
+                    console.setText("");
+                    console.append("\n-----------------------------");
+                    console.append("\nLoad Successful");
+                    console.append("\n-----------------------------\n");
+                    console.append(newData.getConsole());
+                }
+                else{
+                    console.append("\n-----------------------------\n");
+                    console.append("\nLoad Failed");
+                    console.append("\n-----------------------------\n");
+                }
+                dialogWindow.dismiss();
+            }
+        });
+
+        Button cancelButton = (Button) openPopUpMenu.findViewById(R.id.loadCancel_button);
+        cancelButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                dialogWindow.dismiss();
+            }
+        });
+        dialogWindow.setTitle("Load File");
+        dialogWindow.setContentView(openPopUpMenu);
+        dialogWindow.show();
+    }
+
+    public void loadRuleBlocks(TmpData tmpData){
+        editorBox1.removeAllViews();
+        HashMap<String,Rule> newRules = tmpData.getRules().getHash();
+        Iterator it = newRules.entrySet().iterator();
+        while (it.hasNext()){
+            Map.Entry pair = (Map.Entry) it.next();
+            String predicate = pair.getKey().toString();
+            if (pair.getValue() instanceof  RuleFacts){
+                for (List<String> objectValue: ((RuleFacts) pair.getValue()).getValuePair()) {
+                    if (objectValue.size() == 1){
+                        final DisplaySingleConstant singleConstBlock = new DisplaySingleConstant(MainActivity.this);
+                        singleConstBlock.setOnLongClickListener(new selectLongClick());
+                        EditText predicateName = (EditText) singleConstBlock.findViewById(R.id.pred1);
+                        predicateName.setText(predicate, TextView.BufferType.EDITABLE);
+                        EditText constant = (EditText) singleConstBlock.findViewById(R.id.editConst1);
+                        constant.setText(objectValue.get(0), TextView.BufferType.EDITABLE);
+                        editorBox1.addView(singleConstBlock);
+                    }
+                    else if (objectValue.size() == 2){
+                        final DisplayDoubleConstant doubleConstBlock = new DisplayDoubleConstant(MainActivity.this);
+                        doubleConstBlock.setOnLongClickListener(new selectLongClick());
+                        EditText predicateName = (EditText) doubleConstBlock.findViewById(R.id.pred2);
+                        predicateName.setText(predicate, TextView.BufferType.EDITABLE);
+                        EditText constant = (EditText) doubleConstBlock.findViewById(R.id.editConst2);
+                        constant.setText(objectValue.get(0), TextView.BufferType.EDITABLE);
+                        EditText constant2 = (EditText) doubleConstBlock.findViewById(R.id.editConst3);
+                        constant2.setText(objectValue.get(1), TextView.BufferType.EDITABLE);
+                        editorBox1.addView(doubleConstBlock);
+                    }
+                }
+            }
+            else if (pair.getValue() instanceof  MakeFacts){
+
+            }
+            it.remove();
+        }
+    }
+
     public void checkQueryLine(){
         String editorBox1Text = editorBox2.getText().toString();
         String[] lines = editorBox1Text.split("\n");
-        LittleProlog littleProlog = new LittleProlog(this.rules);
+        LittleProlog littleProlog = new LittleProlog(this.currentRules);
         console = (TextView) console.findViewById(R.id.console_text);
         count = 0;
         for (String line:lines) {
@@ -344,9 +466,9 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void addPredicates(){
-        WriteRules write = new WriteRules(this.rules);
-        this.rules.clearHash();
+    public Rules addPredicates(){
+        WriteRules write = new WriteRules(this.currentRules);
+        this.currentRules.clearHash();
         for (int x = 0; x < editorBox1.getChildCount(); x++){
             View theBlock = (View) editorBox1.getChildAt(x);
             if (theBlock instanceof DisplaySingleConstant) {
@@ -369,7 +491,7 @@ public class MainActivity extends AppCompatActivity {
                 write.addPredicateVersion1(predicateName.getText().toString(),arguments);
             }
         }
-        this.rules = write.getRules();
+        return write.getRules();
     }
 }
 

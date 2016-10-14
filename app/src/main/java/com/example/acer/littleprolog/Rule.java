@@ -7,7 +7,7 @@ import java.util.List;
  * Purpose: To store the rule and its values
  */
 
-public abstract class Rule {
+public abstract class Rule implements java.io.Serializable{
     //A string which stores the predicate name
     private String predicateName;
     public Rule(String predicateName){

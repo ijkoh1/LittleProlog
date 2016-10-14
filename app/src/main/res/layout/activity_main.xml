@@ -34,6 +34,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:id="@+id/open_button"
+            android:onClick="inflateOpenPopUp"
             android:textSize="11sp"
             android:background="@drawable/top_left_border"
             android:layout_weight="0.20"/>
@@ -52,6 +53,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:id="@+id/save_button"
+            android:onClick="inflateSavePopUp"
             android:textSize="11sp"
             android:background="@drawable/top_left_border"
             android:layout_weight="0.20"/>
