@@ -5,7 +5,7 @@
     <LinearLayout
         android:orientation="horizontal"
         android:id="@+id/divide_box"
-        android:background="@drawable/all_border"
+        android:background="@drawable/operators_back"
         android:layout_height="30dp"
         android:layout_width="85dp"
         android:layout_alignParentTop="true"

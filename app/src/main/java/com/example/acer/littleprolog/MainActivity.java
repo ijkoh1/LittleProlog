@@ -50,6 +50,8 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    //set public class for
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -72,12 +74,22 @@ public class MainActivity extends AppCompatActivity {
         double_const_btn = (Button)findViewById(R.id.double_constant_button);
         write_btn = (Button)findViewById(R.id.write_button);
         read_btn = (Button)findViewById(R.id.read_button);
-        operator_btn = (Button)findViewById(R.id.operator_button);
         start_btn = (Button)findViewById(R.id.start_button) ;
         end_btn = (Button)findViewById(R.id.end_button);
 
         //set the initial text to editorBox2
         editorBox2.setText("?- ");
+
+        //initialize all operato custom view
+        final Equal_CustView equalCView = new Equal_CustView(MainActivity.this);
+        final LessThan_CustView lessthanCView = new LessThan_CustView(MainActivity.this);
+        final LessEq_CustView lessEqCView = new LessEq_CustView(MainActivity.this);
+        final MoreThan_CustView morethanCView = new MoreThan_CustView(MainActivity.this);
+        final MoreEq_CustView moreEqCView = new MoreEq_CustView(MainActivity.this);
+        final Add_CustView addCView = new Add_CustView(MainActivity.this);
+        final Minus_CustView minusCView = new Minus_CustView(MainActivity.this);
+        final Multiply_CustView multCView = new Multiply_CustView(MainActivity.this);
+        final Divide_CustView divideCView = new Divide_CustView(MainActivity.this);
 
         selectedView = null;
 
@@ -289,49 +301,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        //listener for operator button, to show a operator... But this have not function yet, it
-        // will be done in the next iteration.
-        operator_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                PopupMenu popupMenu = new PopupMenu(MainActivity.this, view);   //get PopupMenu class
-                //set listener for menu, so that when user click on the button, popup menu will be shown
-                popupMenu.setOnMenuItemClickListener(new OnMenuItemClickListener() {
 
-                    @Override
-                    public boolean onMenuItemClick(MenuItem item) {
-                        switch (item.getItemId()) {
-                            case R.id.equal:
-                                return true;
-
-                            case R.id.more_equal:
-                                return true;
-
-                            case R.id.less_equal:
-                                return true;
-
-                            case R.id.less_than:
-                                return true;
-
-                            case R.id.add:
-                                return true;
-
-                            case R.id.minus:
-                                return true;
-
-                            case R.id.mult:
-                                return true;
-
-                            case R.id.div:
-                                return true;
-                        }
-                        return true;
-                    }
-                });
-                popupMenu.inflate(R.menu.operator_popup_menu);
-                popupMenu.show();
-            }
-        });
     }
 
     public void inflateViewMetaDataPopUp(){

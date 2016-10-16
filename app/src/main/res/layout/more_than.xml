@@ -5,7 +5,7 @@
     <LinearLayout
         android:orientation="horizontal"
         android:id="@+id/more_than_box"
-        android:background="@drawable/all_border"
+        android:background="@drawable/operators_back"
         android:layout_height="30dp"
         android:layout_width="85dp"
         android:layout_alignParentTop="true"
@@ -23,10 +23,10 @@
             android:background="@drawable/all_border"/>
 
         <TextView
-            android:text=">"
+            android:text="&gt;"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/more_sign"
+            android:id="@+id/morethan_sign"
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="5dp"
             android:textColor="@android:color/black" />
