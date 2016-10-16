@@ -174,7 +174,7 @@
                     android:layout_marginTop="2dp"
                     android:layout_marginBottom="2dp"/>
 
-                <!--<Button
+                <Button
                     android:text="__ = __"
                     android:layout_width="wrap_content"
                     android:layout_height="35dp"
@@ -253,12 +253,9 @@
                     android:id="@+id/div_btn"
                     android:background="@drawable/operators_back"
                     android:layout_margin="3dp"
-                    android:padding="5dp"/>-->
+                    android:padding="5dp"/>
 
-                <include layout="@layout/bla"
-                    android:id="@+id/bla"/>
-
-                <include layout="@layout/equal" />
+                <!--<include layout="@layout/equal" />
 
                 <include layout="@layout/less_than" />
 
@@ -275,7 +272,7 @@
                 <include layout="@layout/multiply" />
 
                 <include layout="@layout/divide" />
-
+-->
             </LinearLayout>
 
         </ScrollView>

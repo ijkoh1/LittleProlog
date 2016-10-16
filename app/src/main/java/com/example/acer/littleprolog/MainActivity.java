@@ -34,8 +34,8 @@ import java.util.Map;
 public class MainActivity extends AppCompatActivity {
 
     //initialize global variable
-    private LinearLayout blockContainer,editorBox1,consoleBox,bla;
-    private EditText editorBox2;
+    private LinearLayout blockContainer,editorBox1,consoleBox;
+    private EditText editorBox2,eq_box2;
     private Button clear_btn,open_btn,run_btn,save_btn,metaData_btn,delete_btn,single_const_btn,
             double_const_btn,write_btn,read_btn,start_btn,end_btn,add_btn,minus_btn,mult_btn,div_btn,
             eq_btn,lt_btn,mt_btn,lt_eq_btn,mt_eq_btn;
@@ -45,6 +45,18 @@ public class MainActivity extends AppCompatActivity {
     private MetaData currentMetaData = null;
     String predicate = "";
     Integer count = 0;
+
+    /*//initialize all operaton custom view
+    public Equal_CustView equalCView = new Equal_CustView(MainActivity.this);
+    public LessThan_CustView lessthanCView = new LessThan_CustView(MainActivity.this);
+    public LessEq_CustView lessEqCView = new LessEq_CustView(MainActivity.this);
+    public MoreThan_CustView morethanCView = new MoreThan_CustView(MainActivity.this);
+    public MoreEq_CustView moreEqCView = new MoreEq_CustView(MainActivity.this);
+    public Add_CustView addCView = new Add_CustView(MainActivity.this);
+    public Minus_CustView minusCView = new Minus_CustView(MainActivity.this);
+    public Multiply_CustView multCView = new Multiply_CustView(MainActivity.this);
+    public Divide_CustView divideCView = new Divide_CustView(MainActivity.this);*/
+
 
     //set public class for long click (this will be called by delete button, so that when
     //user long press on the block, the delete button can delete the long-pressed item.
@@ -69,8 +81,6 @@ public class MainActivity extends AppCompatActivity {
         //initiate edit text
         editorBox2 = (EditText) findViewById(R.id.editor2_edit) ;
 
-        bla = (LinearLayout) findViewById(R.id.bla);
-
         //initiate buttons
         clear_btn = (Button)findViewById(R.id.clear_button);
         open_btn = (Button)findViewById(R.id.open_button);
@@ -84,7 +94,7 @@ public class MainActivity extends AppCompatActivity {
         read_btn = (Button)findViewById(R.id.read_button);
         start_btn = (Button)findViewById(R.id.start_button) ;
         end_btn = (Button)findViewById(R.id.end_button);
-        /*eq_btn = (Button)findViewById(R.id.equal_btn);
+        eq_btn = (Button)findViewById(R.id.equal_btn);
         add_btn = (Button)findViewById(R.id.add_btn);
         minus_btn = (Button)findViewById(R.id.minus_btn);
         mult_btn = (Button)findViewById(R.id.mult_btn);
@@ -92,10 +102,21 @@ public class MainActivity extends AppCompatActivity {
         lt_eq_btn = (Button)findViewById(R.id.lt_eq_btn);
         lt_btn = (Button)findViewById(R.id.less_than_btn);
         mt_eq_btn = (Button)findViewById(R.id.mt_eq_btn);
-        mt_btn = (Button)findViewById(R.id.more_than_btn);*/
+        mt_btn = (Button)findViewById(R.id.more_than_btn);
 
         //set the initial text to editorBox2
         editorBox2.setText("?- ");
+
+        //initiate on touch listener for operator custom view
+        eq_btn.setOnTouchListener(new MyTouchListener());
+        lt_btn.setOnTouchListener(new MyTouchListener());
+        lt_eq_btn.setOnTouchListener(new MyTouchListener());
+        mt_btn.setOnTouchListener(new MyTouchListener());
+        mt_eq_btn.setOnTouchListener(new MyTouchListener());
+        add_btn.setOnTouchListener(new MyTouchListener());
+        minus_btn.setOnTouchListener(new MyTouchListener());
+        mult_btn.setOnTouchListener(new MyTouchListener());
+        div_btn.setOnTouchListener(new MyTouchListener());
 
         //initialize all operaton custom view
         Equal_CustView equalCView = new Equal_CustView(MainActivity.this);
@@ -107,22 +128,6 @@ public class MainActivity extends AppCompatActivity {
         Minus_CustView minusCView = new Minus_CustView(MainActivity.this);
         Multiply_CustView multCView = new Multiply_CustView(MainActivity.this);
         Divide_CustView divideCView = new Divide_CustView(MainActivity.this);
-        blaCustView blabla = new blaCustView(MainActivity.this);
-
-        equalCView.setOnTouchListener(new MyTouchListener());
-        blabla.setOnTouchListener(new MyTouchListener());
-        bla.setOnTouchListener(new MyTouchListener());
-
-        //initiate on touch listener for operator custom view
-        /*eq_btn.setOnTouchListener(new MyTouchListener());
-        lt_btn.setOnTouchListener(new MyTouchListener());
-        lt_eq_btn.setOnTouchListener(new MyTouchListener());
-        mt_btn.setOnTouchListener(new MyTouchListener());
-        mt_eq_btn.setOnTouchListener(new MyTouchListener());
-        add_btn.setOnTouchListener(new MyTouchListener());
-        minus_btn.setOnTouchListener(new MyTouchListener());
-        mult_btn.setOnTouchListener(new MyTouchListener());
-        div_btn.setOnTouchListener(new MyTouchListener());*/
 
         //initiate on drag listener for operator custom view
         equalCView.findViewById(R.id.empty2).setOnDragListener(new MyDragListener());
@@ -397,6 +402,16 @@ public class MainActivity extends AppCompatActivity {
 
     public class MyDragListener implements View.OnDragListener {
 
+        Equal_CustView equalCView = new Equal_CustView(MainActivity.this);
+        LessThan_CustView lessthanCView = new LessThan_CustView(MainActivity.this);
+        LessEq_CustView lessEqCView = new LessEq_CustView(MainActivity.this);
+        MoreThan_CustView morethanCView = new MoreThan_CustView(MainActivity.this);
+        MoreEq_CustView moreEqCView = new MoreEq_CustView(MainActivity.this);
+        Add_CustView addCView = new Add_CustView(MainActivity.this);
+        Minus_CustView minusCView = new Minus_CustView(MainActivity.this);
+        Multiply_CustView multCView = new Multiply_CustView(MainActivity.this);
+        Divide_CustView divideCView = new Divide_CustView(MainActivity.this);
+
         @Override
         public boolean onDrag(View v, DragEvent event) {
             int action = event.getAction();
@@ -412,9 +427,70 @@ public class MainActivity extends AppCompatActivity {
                     View view = (View) event.getLocalState();
                     ViewGroup owner = (ViewGroup) view.getParent();
                     owner.removeView(view);
-                    LinearLayout container = (LinearLayout) v;
+                    /*LinearLayout container = (LinearLayout) v;
                     container.addView(view);
-                    view.setVisibility(View.VISIBLE);
+                    view.setVisibility(View.VISIBLE);*/
+                    int eqID = eq_btn.getId();
+                    int ltID = lt_btn.getId();
+                    int ltEqID = lt_eq_btn.getId();
+                    int gtID = mt_btn.getId();
+                    int gtEqID = mt_eq_btn.getId();
+                    int addID = add_btn.getId();
+                    int minusID = minus_btn.getId();
+                    int multID = mult_btn.getId();
+                    int divID = div_btn.getId();
+
+                    if (view.getId() == eqID){
+                        editorBox1.addView(equalCView);
+                        break;
+                    }
+
+                    if (view.getId() == ltID){
+                        editorBox1.addView(lessthanCView);
+                        break;
+                    }
+
+                    if (view.getId() == ltEqID){
+                        editorBox1.addView(lessEqCView);
+                        break;
+                    }
+
+
+                    if (view.getId() == gtID){
+                        editorBox1.addView(morethanCView);
+                        break;
+                    }
+
+
+                    if (view.getId() == gtEqID){
+                        editorBox1.addView(moreEqCView);
+                        break;
+                    }
+
+
+                    if (view.getId() == addID){
+                        editorBox1.addView(addCView);
+                        break;
+                    }
+
+
+                    if (view.getId() == minusID){
+                        editorBox1.addView(minusCView);
+                        break;
+                    }
+
+
+                    if (view.getId() == multID){
+                        editorBox1.addView(multCView);
+                        break;
+                    }
+
+
+                    if (view.getId() == divID){
+                        editorBox1.addView(divideCView);
+                        break;
+                    }
+
                     break;
                 case DragEvent.ACTION_DRAG_ENDED:
                     break;
