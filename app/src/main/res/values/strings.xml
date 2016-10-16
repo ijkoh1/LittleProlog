@@ -3,5 +3,6 @@
     <string name="place_block"><u>Place Block Here: </u></string>
     <string name="insert_query"><u>Insert Query Here: </u></string>
     <string name="display_console"><u>Console: </u></string>
+    <string name="start">Start</string>
     <string-array name="fileSaved_array"></string-array>
 </resources>
