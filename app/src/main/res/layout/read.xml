@@ -34,7 +34,28 @@
             android:layout_height="25dp"
             android:inputType="textPersonName"
             android:ems="10"
-            android:id="@+id/editRead"
+            android:id="@+id/editRead1"
+            android:layout_marginLeft="5dp"
+            android:layout_gravity="center_vertical"
+            android:background="@drawable/all_border"
+            android:layout_width="60dp"
+            android:paddingLeft="2dp"/>
+
+        <TextView
+            android:text="="
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/equal_sg"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:textColor="@android:color/black" />
+
+        <EditText
+            android:layout_height="25dp"
+            android:inputType="textPersonName"
+            android:ems="10"
+            android:id="@+id/editRead2"
             android:layout_marginLeft="5dp"
             android:layout_gravity="center_vertical"
             android:background="@drawable/all_border"

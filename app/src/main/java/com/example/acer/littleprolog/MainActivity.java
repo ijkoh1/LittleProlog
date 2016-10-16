@@ -281,7 +281,7 @@ public class MainActivity extends AppCompatActivity {
 
                 final StartClass startButton= new StartClass(MainActivity.this);    //initiate StartClass custom view
                 startButton.setOnLongClickListener(new selectLongClick());
-                editorBox1.addView(startButton);       //add start block into Insert Rules and Facts column
+                editorBox1.addView(startButton);    //add start block into Insert Rules and Facts column
             }
         });
 

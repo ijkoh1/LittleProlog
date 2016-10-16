@@ -14,10 +14,13 @@ import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import org.w3c.dom.Text;
+
 public class StartClass extends RelativeLayout{
 
     //initialize variable
     private EditText edit1;
+    private TextView sign;
 
     public StartClass(Context context){
         super(context);
@@ -30,10 +33,10 @@ public class StartClass extends RelativeLayout{
         //display start block
         inflate(getContext(),R.layout.start,this);
 
-        edit1.setText(R.string.start);
-
         //get content of start block
         this.edit1 = (EditText) findViewById(R.id.start_edittext);
+        this.sign = (TextView) findViewById(R.id.start_right_sign);
+        edit1.setText(R.string.start);
 
     }
 
