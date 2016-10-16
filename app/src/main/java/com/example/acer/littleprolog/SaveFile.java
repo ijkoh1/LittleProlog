@@ -10,19 +10,24 @@ import android.content.Context;
 import android.view.View;
 
 import java.io.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 
 public class SaveFile {
-    private TmpData ruledata;
+    private TmpData data;
     public SaveFile(TmpData prologData){
-        this.ruledata = prologData;
+        this.data = prologData;
     }
 
-    public Boolean saveFile(String fileName, MainActivity context){
+    public Boolean saveProgram(String fileName, MainActivity context){
         try{
 //            FileOutputStream fout = new FileOutputStream(fileName + ".ser");
             FileOutputStream fout = context.openFileOutput(fileName + ".ser", Context.MODE_PRIVATE);
             ObjectOutputStream out = new ObjectOutputStream(fout);
-            out.writeObject(this.ruledata);
+            out.writeObject(this.data);
             out.close();
             fout.close();
             return true;
@@ -30,5 +35,51 @@ public class SaveFile {
         catch (Exception e){
             return false;
         }
+    }
+
+    public Boolean saveProlog(String fileName, MainActivity context){
+        try{
+//            FileOutputStream fout = new FileOutputStream(fileName + ".ser");
+            FileOutputStream fout = context.openFileOutput(fileName + ".pl", Context.MODE_PRIVATE);
+            String prologString = "";
+            List<String> content = writeProlog();
+            for (String line: content) {
+                prologString += line + "\n";
+            }
+            OutputStreamWriter outputStreamWriter = new OutputStreamWriter(fout);
+            outputStreamWriter.write(prologString);
+            outputStreamWriter.close();
+            fout.close();
+            return true;
+        }
+        catch (Exception e){
+            return false;
+        }
+    }
+
+    private List<String> writeProlog(){
+        List<String> result = new ArrayList<>();
+        HashMap<String, Rule> rules = this.data.getRules().getHash();
+        Iterator it = rules.entrySet().iterator();
+        while(it.hasNext()){
+            String line = "";
+            Map.Entry pair = (Map.Entry) it.next();
+            String predicate = pair.getKey().toString();
+            line += predicate + "(";
+            if (pair.getValue() instanceof  RuleFacts){
+                for (List<String> objectValue: ((RuleFacts) pair.getValue()).getValuePair()){
+                    String subline = "";
+                    if (objectValue.size() == 1){
+                        subline += line + objectValue.get(0) + ").";
+                    }
+                    else if (objectValue.size() == 2){
+                        subline += line + objectValue.get(0) + "," + objectValue.get(1) + ").";
+                    }
+                    result.add(subline);
+                }
+            }
+        }
+        System.out.println(result);
+        return result;
     }
 }

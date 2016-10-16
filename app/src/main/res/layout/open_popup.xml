@@ -46,4 +46,5 @@
             android:layout_weight="5"
             android:id="@+id/loadFile_button"/>
     </LinearLayout>
+
 </LinearLayout>

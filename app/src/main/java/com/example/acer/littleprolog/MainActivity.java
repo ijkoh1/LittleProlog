@@ -133,7 +133,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        //listener for open button (so far this button is a dummy button)
+        //listener for open button
         open_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -142,11 +142,45 @@ public class MainActivity extends AppCompatActivity {
 
                     @Override
                     public boolean onMenuItemClick(MenuItem item) {
-                        //insert function
+                        switch (item.getItemId()) {
+                            case R.id.openProgram:
+                                inflateOpenProgramPopUp();
+                                return true;
+
+                            case R.id.openProlog:
+                                inflateOpenPrologPopUp();
+                                return true;
+                        }
                         return true;
                     }
                 });
                 popupMenu.inflate(R.menu.open_popup_menu);
+                popupMenu.show();
+            }
+        });
+
+        //listener for open button
+        save_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                PopupMenu popupMenu = new PopupMenu(MainActivity.this, view);
+                popupMenu.setOnMenuItemClickListener(new OnMenuItemClickListener() {
+
+                    @Override
+                    public boolean onMenuItemClick(MenuItem item) {
+                        switch (item.getItemId()) {
+                            case R.id.saveProgram:
+                                inflateSaveProgramPopUp();
+                                return true;
+
+                            case R.id.saveProlog:
+                                inflateSavePrologPopUp();
+                                return true;
+                        }
+                        return true;
+                    }
+                });
+                popupMenu.inflate(R.menu.save_popup_menu);
                 popupMenu.show();
             }
         });
@@ -337,9 +371,9 @@ public class MainActivity extends AppCompatActivity {
     public void inflateViewMetaDataPopUp(){
         final View metaDataPopUpMenu = getLayoutInflater().inflate(R.layout.view_metadata_popup,null);
         final Dialog dialogWindow = new Dialog(this);
-        EditText authorTextBox = (EditText) metaDataPopUpMenu.findViewById(R.id.author_textBox);
-        EditText emailTextBox = (EditText) metaDataPopUpMenu.findViewById(R.id.email_textBox);
-        EditText descriptionTextBox = (EditText) metaDataPopUpMenu.findViewById(R.id.description_textBox);
+        TextView authorTextBox = (TextView) metaDataPopUpMenu.findViewById(R.id.author_textBox);
+        TextView emailTextBox = (TextView) metaDataPopUpMenu.findViewById(R.id.email_textBox);
+        TextView descriptionTextBox = (TextView) metaDataPopUpMenu.findViewById(R.id.description_textBox);
         if (currentMetaData != null){
             authorTextBox.setText(currentMetaData.getAuthor());
             emailTextBox.setText(currentMetaData.getEmail());
@@ -376,7 +410,7 @@ public class MainActivity extends AppCompatActivity {
         dialogWindow.show();
     }
 
-    public void inflateSavePopUp(View v){
+    public void inflateSaveProgramPopUp(){
         final View savePopUpMenu = getLayoutInflater().inflate(R.layout.save_popup,null);
         final Dialog dialogWindow = new Dialog(this);
         this.currentRules = addPredicates();
@@ -388,7 +422,7 @@ public class MainActivity extends AppCompatActivity {
                 TextView aText = (TextView) savePopUpMenu.findViewById(R.id.save_textBox);
                 TmpData tmp = new TmpData(MainActivity.this.currentRules, editorBox2.getText().toString(), console.getText().toString(), currentMetaData);
                 SaveFile save = new SaveFile(tmp);
-                Boolean saved = save.saveFile(aText.getText().toString(), MainActivity.this);
+                Boolean saved = save.saveProgram(aText.getText().toString(), MainActivity.this);
                 if (saved){
                     console.append("\n-----------------------------");
                     console.append("\nSave Successful");
@@ -415,7 +449,46 @@ public class MainActivity extends AppCompatActivity {
         dialogWindow.show();
     }
 
-    public void inflateOpenPopUp(View v){
+    public void inflateSavePrologPopUp(){
+        final View savePopUpMenu = getLayoutInflater().inflate(R.layout.save_popup,null);
+        final Dialog dialogWindow = new Dialog(this);
+        this.currentRules = addPredicates();
+
+        Button saveButton = (Button) savePopUpMenu.findViewById(R.id.saveFile_button);
+        saveButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                TextView aText = (TextView) savePopUpMenu.findViewById(R.id.save_textBox);
+                TmpData tmp = new TmpData(MainActivity.this.currentRules, editorBox2.getText().toString(), console.getText().toString(), currentMetaData);
+                SaveFile save = new SaveFile(tmp);
+                Boolean saved = save.saveProlog(aText.getText().toString(), MainActivity.this);
+                if (saved){
+                    console.append("\n-----------------------------");
+                    console.append("\nSave Successful");
+                    console.append("\n-----------------------------\n");
+                }
+                else{
+                    console.append("\n-----------------------------");
+                    console.append("\nSave Failed");
+                    console.append("\n-----------------------------\n");
+                }
+                dialogWindow.dismiss();
+            }
+        });
+
+        Button cancelButton = (Button) savePopUpMenu.findViewById(R.id.saveCancel_button);
+        cancelButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                dialogWindow.dismiss();
+            }
+        });
+        dialogWindow.setTitle("Save Prolog File");
+        dialogWindow.setContentView(savePopUpMenu);
+        dialogWindow.show();
+    }
+
+    public void inflateOpenPrologPopUp(){
         final View openPopUpMenu = getLayoutInflater().inflate(R.layout.open_popup,null);
         final Dialog dialogWindow = new Dialog(this);
 
@@ -425,13 +498,52 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 TextView aText = (TextView) openPopUpMenu.findViewById(R.id.load_textBox);
                 LoadFile load = new LoadFile();
-                TmpData newData = load.loadFile(aText.getText().toString(), MainActivity.this);
+                Rules newRules = load.prolog(aText.getText().toString(), MainActivity.this);
+                if (newRules != null){
+                    loadRuleBlocks(newRules);
+                    console.setText("");
+                    console.append("-----------------------------");
+                    console.append("\nLoad Successful");
+                    console.append("\n-----------------------------\n");
+                }
+                else{
+                    console.append("\n-----------------------------");
+                    console.append("\nLoad Failed");
+                    console.append("\n-----------------------------\n");
+                }
+                dialogWindow.dismiss();
+            }
+        });
+
+        Button cancelButton = (Button) openPopUpMenu.findViewById(R.id.loadCancel_button);
+        cancelButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                dialogWindow.dismiss();
+            }
+        });
+        dialogWindow.setTitle("Load File");
+        dialogWindow.setContentView(openPopUpMenu);
+        dialogWindow.show();
+    }
+
+    public void inflateOpenProgramPopUp(){
+        final View openPopUpMenu = getLayoutInflater().inflate(R.layout.open_popup,null);
+        final Dialog dialogWindow = new Dialog(this);
+
+        Button loadButton = (Button) openPopUpMenu.findViewById(R.id.loadFile_button);
+        loadButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                TextView aText = (TextView) openPopUpMenu.findViewById(R.id.load_textBox);
+                LoadFile load = new LoadFile();
+                TmpData newData = load.program(aText.getText().toString(), MainActivity.this);
                 if (newData != null){
-                    loadRuleBlocks(newData);
+                    loadRuleBlocks(newData.getRules());
                     currentMetaData = newData.getMetaData();
                     editorBox2.setText(newData.getQuery());
                     console.setText("");
-                    console.append("\n-----------------------------");
+                    console.append("-----------------------------");
                     console.append("\nLoad Successful");
                     console.append("\n-----------------------------\n");
                     console.append(newData.getConsole());
@@ -457,9 +569,9 @@ public class MainActivity extends AppCompatActivity {
         dialogWindow.show();
     }
 
-    public void loadRuleBlocks(TmpData tmpData){
+    public void loadRuleBlocks(Rules tmpData){
         editorBox1.removeAllViews();
-        HashMap<String,Rule> newRules = tmpData.getRules().getHash();
+        HashMap<String,Rule> newRules = tmpData.getHash();
         Iterator it = newRules.entrySet().iterator();
         while (it.hasNext()){
             Map.Entry pair = (Map.Entry) it.next();

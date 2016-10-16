@@ -2,11 +2,11 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/openFile"
-        android:title="Open File"/>
+        android:id="@+id/openProgram"
+        android:title="Open Program File"/>
 
     <item
-        android:id="@+id/openRecent"
-        android:title="Open Recent"/>
+        android:id="@+id/openProlog"
+        android:title="Open Prolog File"/>
 
 </menu>
