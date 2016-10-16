@@ -7,10 +7,16 @@
 package com.example.acer.littleprolog;
 
 import android.app.Dialog;
+import android.content.ClipData;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
+import android.view.DragEvent;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -28,10 +34,11 @@ import java.util.Map;
 public class MainActivity extends AppCompatActivity {
 
     //initialize global variable
-    private LinearLayout blockContainer,editorBox1,consoleBox;
+    private LinearLayout blockContainer,editorBox1,consoleBox,bla;
     private EditText editorBox2;
     private Button clear_btn,open_btn,run_btn,save_btn,metaData_btn,delete_btn,single_const_btn,
-            double_const_btn,write_btn,read_btn,operator_btn,start_btn,end_btn;
+            double_const_btn,write_btn,read_btn,start_btn,end_btn,add_btn,minus_btn,mult_btn,div_btn,
+            eq_btn,lt_btn,mt_btn,lt_eq_btn,mt_eq_btn;
     private View selectedView;
     private TextView console;
     private Rules currentRules = new Rules();
@@ -50,7 +57,6 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    //set public class for
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,6 +68,8 @@ public class MainActivity extends AppCompatActivity {
         console = (TextView) findViewById(R.id.console_text);
         //initiate edit text
         editorBox2 = (EditText) findViewById(R.id.editor2_edit) ;
+
+        bla = (LinearLayout) findViewById(R.id.bla);
 
         //initiate buttons
         clear_btn = (Button)findViewById(R.id.clear_button);
@@ -76,20 +84,57 @@ public class MainActivity extends AppCompatActivity {
         read_btn = (Button)findViewById(R.id.read_button);
         start_btn = (Button)findViewById(R.id.start_button) ;
         end_btn = (Button)findViewById(R.id.end_button);
+        /*eq_btn = (Button)findViewById(R.id.equal_btn);
+        add_btn = (Button)findViewById(R.id.add_btn);
+        minus_btn = (Button)findViewById(R.id.minus_btn);
+        mult_btn = (Button)findViewById(R.id.mult_btn);
+        div_btn = (Button)findViewById(R.id.div_btn);
+        lt_eq_btn = (Button)findViewById(R.id.lt_eq_btn);
+        lt_btn = (Button)findViewById(R.id.less_than_btn);
+        mt_eq_btn = (Button)findViewById(R.id.mt_eq_btn);
+        mt_btn = (Button)findViewById(R.id.more_than_btn);*/
 
         //set the initial text to editorBox2
         editorBox2.setText("?- ");
 
-        //initialize all operato custom view
-        final Equal_CustView equalCView = new Equal_CustView(MainActivity.this);
-        final LessThan_CustView lessthanCView = new LessThan_CustView(MainActivity.this);
-        final LessEq_CustView lessEqCView = new LessEq_CustView(MainActivity.this);
-        final MoreThan_CustView morethanCView = new MoreThan_CustView(MainActivity.this);
-        final MoreEq_CustView moreEqCView = new MoreEq_CustView(MainActivity.this);
-        final Add_CustView addCView = new Add_CustView(MainActivity.this);
-        final Minus_CustView minusCView = new Minus_CustView(MainActivity.this);
-        final Multiply_CustView multCView = new Multiply_CustView(MainActivity.this);
-        final Divide_CustView divideCView = new Divide_CustView(MainActivity.this);
+        //initialize all operaton custom view
+        Equal_CustView equalCView = new Equal_CustView(MainActivity.this);
+        LessThan_CustView lessthanCView = new LessThan_CustView(MainActivity.this);
+        LessEq_CustView lessEqCView = new LessEq_CustView(MainActivity.this);
+        MoreThan_CustView morethanCView = new MoreThan_CustView(MainActivity.this);
+        MoreEq_CustView moreEqCView = new MoreEq_CustView(MainActivity.this);
+        Add_CustView addCView = new Add_CustView(MainActivity.this);
+        Minus_CustView minusCView = new Minus_CustView(MainActivity.this);
+        Multiply_CustView multCView = new Multiply_CustView(MainActivity.this);
+        Divide_CustView divideCView = new Divide_CustView(MainActivity.this);
+        blaCustView blabla = new blaCustView(MainActivity.this);
+
+        equalCView.setOnTouchListener(new MyTouchListener());
+        blabla.setOnTouchListener(new MyTouchListener());
+        bla.setOnTouchListener(new MyTouchListener());
+
+        //initiate on touch listener for operator custom view
+        /*eq_btn.setOnTouchListener(new MyTouchListener());
+        lt_btn.setOnTouchListener(new MyTouchListener());
+        lt_eq_btn.setOnTouchListener(new MyTouchListener());
+        mt_btn.setOnTouchListener(new MyTouchListener());
+        mt_eq_btn.setOnTouchListener(new MyTouchListener());
+        add_btn.setOnTouchListener(new MyTouchListener());
+        minus_btn.setOnTouchListener(new MyTouchListener());
+        mult_btn.setOnTouchListener(new MyTouchListener());
+        div_btn.setOnTouchListener(new MyTouchListener());*/
+
+        //initiate on drag listener for operator custom view
+        equalCView.findViewById(R.id.empty2).setOnDragListener(new MyDragListener());
+        lessEqCView.findViewById(R.id.empty2).setOnDragListener(new MyDragListener());
+        lessthanCView.findViewById(R.id.empty2).setOnDragListener(new MyDragListener());
+        moreEqCView.findViewById(R.id.empty2).setOnDragListener(new MyDragListener());
+        morethanCView.findViewById(R.id.empty2).setOnDragListener(new MyDragListener());
+        addCView.findViewById(R.id.empty2).setOnDragListener(new MyDragListener());
+        minusCView.findViewById(R.id.empty2).setOnDragListener(new MyDragListener());
+        multCView.findViewById(R.id.empty2).setOnDragListener(new MyDragListener());
+        divideCView.findViewById(R.id.empty2).setOnDragListener(new MyDragListener());
+        editorBox1.setOnDragListener(new MyDragListener());
 
         selectedView = null;
 
@@ -140,8 +185,6 @@ public class MainActivity extends AppCompatActivity {
                 //shows the popup menu
                 popupMenu.inflate(R.menu.clear_popup_menu);
                 popupMenu.show();
-
-
             }
         });
 
@@ -335,7 +378,51 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+    }
 
+    public class MyTouchListener implements View.OnTouchListener {
+        @Override
+        public boolean onTouch(View view, MotionEvent motionEvent) {
+            if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
+                ClipData data = ClipData.newPlainText("", "");
+                View.DragShadowBuilder shadowBuilder = new View.DragShadowBuilder(view);
+                view.startDrag(data, shadowBuilder, view, 0);
+                view.setVisibility(View.VISIBLE);
+                return true;
+            } else {
+                return false;
+            }
+        }
+    }
+
+    public class MyDragListener implements View.OnDragListener {
+
+        @Override
+        public boolean onDrag(View v, DragEvent event) {
+            int action = event.getAction();
+            switch (event.getAction()) {
+                case DragEvent.ACTION_DRAG_STARTED:
+                    break;
+                case DragEvent.ACTION_DRAG_ENTERED:
+                    break;
+                case DragEvent.ACTION_DRAG_EXITED:
+                    break;
+                case DragEvent.ACTION_DROP:
+                    // Dropped, reassign View to ViewGroup
+                    View view = (View) event.getLocalState();
+                    ViewGroup owner = (ViewGroup) view.getParent();
+                    owner.removeView(view);
+                    LinearLayout container = (LinearLayout) v;
+                    container.addView(view);
+                    view.setVisibility(View.VISIBLE);
+                    break;
+                case DragEvent.ACTION_DRAG_ENDED:
+                    break;
+                default:
+                    break;
+            }
+            return true;
+        }
     }
 
     public void inflateViewMetaDataPopUp(){

@@ -174,62 +174,107 @@
                     android:layout_marginTop="2dp"
                     android:layout_marginBottom="2dp"/>
 
-                <include
-                    layout="@layout/equal"
+                <!--<Button
+                    android:text="__ = __"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    />
+                    android:layout_height="35dp"
+                    android:id="@+id/equal_btn"
+                    android:background="@drawable/operators_back"
+                    android:layout_margin="3dp"
+                    android:padding="5dp"/>
 
-                <include
-                    layout="@layout/less_equal"
+                <Button
+                    android:text="__ &lt; __"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    />
+                    android:layout_height="35dp"
+                    android:id="@+id/less_than_btn"
+                    android:background="@drawable/operators_back"
+                    android:layout_margin="3dp"
+                    android:padding="5dp"/>
 
-                <include
-                    layout="@layout/less_than"
+                <Button
+                    android:text="__ &lt;= __"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    />
+                    android:layout_height="35dp"
+                    android:id="@+id/lt_eq_btn"
+                    android:background="@drawable/operators_back"
+                    android:layout_margin="3dp"
+                    android:padding="5dp"/>
 
-                <include
-                    layout="@layout/more_equal"
+                <Button
+                    android:text="__ &gt; __"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    />
+                    android:layout_height="35dp"
+                    android:id="@+id/more_than_btn"
+                    android:background="@drawable/operators_back"
+                    android:layout_margin="3dp"
+                    android:padding="5dp"/>
 
-                <include
-                    layout="@layout/more_than"
+                <Button
+                    android:text="__ &gt;= __"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    />
+                    android:layout_height="35dp"
+                    android:id="@+id/mt_eq_btn"
+                    android:background="@drawable/operators_back"
+                    android:layout_margin="3dp"
+                    android:padding="5dp"/>
 
-                <include
-                    layout="@layout/add"
+                <Button
+                    android:text="__ + __"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    />
+                    android:layout_height="35dp"
+                    android:id="@+id/add_btn"
+                    android:background="@drawable/operators_back"
+                    android:layout_margin="3dp"
+                    android:padding="5dp"/>
 
-                <include
-                    layout="@layout/minus"
+                <Button
+                    android:text="__ - __"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    />
+                    android:layout_height="35dp"
+                    android:id="@+id/minus_btn"
+                    android:background="@drawable/operators_back"
+                    android:layout_margin="3dp"
+                    android:padding="5dp"/>
 
-                <include
-                    layout="@layout/multiply"
+                <Button
+                    android:text="__ * __"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    />
+                    android:layout_height="35dp"
+                    android:id="@+id/mult_btn"
+                    android:background="@drawable/operators_back"
+                    android:layout_margin="3dp"
+                    android:padding="5dp"/>
 
-                <include
-                    layout="@layout/divide"
+                <Button
+                    android:text="__ / __"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    />
+                    android:layout_height="35dp"
+                    android:id="@+id/div_btn"
+                    android:background="@drawable/operators_back"
+                    android:layout_margin="3dp"
+                    android:padding="5dp"/>-->
 
+                <include layout="@layout/bla"
+                    android:id="@+id/bla"/>
 
+                <include layout="@layout/equal" />
 
+                <include layout="@layout/less_than" />
+
+                <include layout="@layout/less_equal" />
+
+                <include layout="@layout/more_than" />
+
+                <include layout="@layout/more_equal" />
+
+                <include layout="@layout/add" />
+
+                <include layout="@layout/minus" />
+
+                <include layout="@layout/multiply" />
+
+                <include layout="@layout/divide" />
 
             </LinearLayout>
 

@@ -2,6 +2,7 @@ package com.example.acer.littleprolog;
 
 import android.content.Context;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -9,7 +10,7 @@ import android.widget.TextView;
  * Created by Seong Han on 14-Oct-16.
  */
 
-public class Equal_CustView extends RelativeLayout{
+public class Equal_CustView extends LinearLayout{
 
     //Initialize variable
     private EditText edit_box1,edit_box2;
