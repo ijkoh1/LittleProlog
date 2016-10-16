@@ -103,6 +103,18 @@ public class Rules implements java.io.Serializable{
         }
     }
 
+    public void addRules1(String predicateName, String rule){
+        /*
+        @desc: To insert the value of the predicate into the rules dictionary
+        @param: predicateName - string which stores the predicate name, rule - a list of strings which contains the values of the predicate
+        @pre: None
+        @post: the value of predicate are added into rules dictionary
+        */
+        if(rulesDict.containsKey(predicateName)){
+            rulesDict.get(predicateName).addRule(rule);
+        }
+    }
+
     public Boolean containsOperator(String expression){
         /*
         @desc: To check if the string contains an operator

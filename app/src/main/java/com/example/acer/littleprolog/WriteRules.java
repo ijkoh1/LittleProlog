@@ -39,7 +39,7 @@ public class WriteRules {
         }
     }
 
-    public void addPredicateVersion2(String predicate, List<String> objects){
+    public void addPredicateVersion2(String predicate, String object){
         /*
         @desc: Adds the predicate 2st version eg: start. into rule dictionary
         @param: predicate - string which stores the predicate name, objects - list of strings which stores the parameters of objects
@@ -47,12 +47,16 @@ public class WriteRules {
         @post: the values are added
         */
         if (this.rules.getHash().get(predicate) == null){
-            Rule newRule = new MakeFacts(predicate,objects);
+            List<String> ruleList = new ArrayList<>();
+            if (object != null){
+                ruleList.add(object);
+            }
+            Rule newRule = new MakeFacts(predicate,ruleList);
             this.rules.declaredRules(predicate);
             this.rules.assignRules(predicate,newRule);
         }
         else{
-            this.rules.addRules(predicate,objects);
+            this.rules.addRules1(predicate,object);
         }
     }
 
