@@ -40,11 +40,12 @@ public class LoadFile {
             String ruleString = "";
             Boolean makeFacts = false;
             while ((line = br.readLine()) != null){
+                System.out.println(line);
                 line = line.replaceAll("\n","");
                 List<String> ruleParameter = new ArrayList<String>();
                 if (line.contains(":-")){
                     makeFacts = true;
-                    String[] split = line.split(":- ");
+                    String[] split = line.split(":-");
                     predicate = split[0];
                     line = split[1];
                 }

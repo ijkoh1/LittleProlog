@@ -26,6 +26,7 @@ import android.widget.PopupMenu.OnMenuItemClickListener;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.IOError;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -262,7 +263,10 @@ public class MainActivity extends AppCompatActivity {
 
                             //when user tap "run rule/facts"
                             case R.id.run_rules_facts:
-                                currentRules = addPredicates();
+                                MainActivity.this.currentRules = addPredicates();
+                                if (MainActivity.this.currentRules == null){
+                                    console.append("\nError: Wrong Rule input format");
+                                }
                                 return true;
 
                             //when user tap "run query"
@@ -555,7 +559,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 TextView aText = (TextView) savePopUpMenu.findViewById(R.id.save_textBox);
-                TmpData tmp = new TmpData(MainActivity.this.currentRules, editorBox2.getText().toString(), console.getText().toString(), currentMetaData);
+                TmpData tmp = new TmpData(MainActivity.this.currentRules, editorBox2.getText().toString(), console.getText().toString(), MainActivity.this.currentMetaData, MainActivity.this.declaredVariables);
                 SaveFile save = new SaveFile(tmp);
                 Boolean saved = save.saveProgram(aText.getText().toString(), MainActivity.this);
                 if (saved){
@@ -594,7 +598,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 TextView aText = (TextView) savePopUpMenu.findViewById(R.id.save_textBox);
-                TmpData tmp = new TmpData(MainActivity.this.currentRules, editorBox2.getText().toString(), console.getText().toString(), currentMetaData);
+                TmpData tmp = new TmpData(MainActivity.this.currentRules, editorBox2.getText().toString(), console.getText().toString(), MainActivity.this.currentMetaData, MainActivity.this.declaredVariables);
                 SaveFile save = new SaveFile(tmp);
                 Boolean saved = save.saveProlog(aText.getText().toString(), MainActivity.this);
                 if (saved){
@@ -675,7 +679,8 @@ public class MainActivity extends AppCompatActivity {
                 TmpData newData = load.program(aText.getText().toString(), MainActivity.this);
                 if (newData != null){
                     loadRuleBlocks(newData.getRules());
-                    currentMetaData = newData.getMetaData();
+                    MainActivity.this.currentMetaData = newData.getMetaData();
+                    MainActivity.this.declaredVariables = newData.getDeclaredVariables();
                     editorBox2.setText(newData.getQuery());
                     console.setText("");
                     console.append("-----------------------------");
@@ -710,14 +715,14 @@ public class MainActivity extends AppCompatActivity {
         Iterator it = newRules.entrySet().iterator();
         while (it.hasNext()){
             Map.Entry pair = (Map.Entry) it.next();
-            String predicate = pair.getKey().toString();
+            String predicateValue = pair.getKey().toString();
             if (pair.getValue() instanceof  RuleFacts){
                 for (List<String> objectValue: ((RuleFacts) pair.getValue()).getValuePair()) {
                     if (objectValue.size() == 1){
                         final DisplaySingleConstant singleConstBlock = new DisplaySingleConstant(MainActivity.this);
                         singleConstBlock.setOnLongClickListener(new selectLongClick());
                         EditText predicateName = (EditText) singleConstBlock.findViewById(R.id.pred1);
-                        predicateName.setText(predicate, TextView.BufferType.EDITABLE);
+                        predicateName.setText(predicateValue, TextView.BufferType.EDITABLE);
                         EditText constant = (EditText) singleConstBlock.findViewById(R.id.editConst1);
                         constant.setText(objectValue.get(0), TextView.BufferType.EDITABLE);
                         editorBox1.addView(singleConstBlock);
@@ -726,7 +731,7 @@ public class MainActivity extends AppCompatActivity {
                         final DisplayDoubleConstant doubleConstBlock = new DisplayDoubleConstant(MainActivity.this);
                         doubleConstBlock.setOnLongClickListener(new selectLongClick());
                         EditText predicateName = (EditText) doubleConstBlock.findViewById(R.id.pred2);
-                        predicateName.setText(predicate, TextView.BufferType.EDITABLE);
+                        predicateName.setText(predicateValue, TextView.BufferType.EDITABLE);
                         EditText constant = (EditText) doubleConstBlock.findViewById(R.id.editConst2);
                         constant.setText(objectValue.get(0), TextView.BufferType.EDITABLE);
                         EditText constant2 = (EditText) doubleConstBlock.findViewById(R.id.editConst3);
@@ -736,7 +741,115 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
             else if (pair.getValue() instanceof  MakeFacts){
-
+                System.out.println("lol");
+                final StartClass startBlock = new StartClass(MainActivity.this);
+                EditText predicateName = (EditText) startBlock.findViewById(R.id.start_edittext);
+                predicateName.setText(predicateValue);
+                editorBox1.addView(startBlock);
+                for (String rule:((MakeFacts) pair.getValue()).getValue()){
+                    if (rule.contains("write")){
+                        final WriteClass writeBlock = new WriteClass(MainActivity.this);
+                        EditText contentEdit = (EditText) writeBlock.findViewById(R.id.editWrite);
+                        String content = rule.replace("write('", "");
+                        content = content.replace("')", "");
+                        contentEdit.setText(content);
+                        editorBox1.addView(writeBlock);
+                    }
+                    else if (rule.contains("read")){
+                        final ReadClass readBlock = new ReadClass(MainActivity.this);
+                        EditText nameEdit = (EditText) readBlock.findViewById(R.id.editRead1);
+                        EditText valueEdit = (EditText) readBlock.findViewById(R.id.editRead2);
+                        String content = rule.replace("read(", "");
+                        content = content.replace(")", "");
+                        nameEdit.setText(content);
+                        System.out.println(content);
+                        if (this.declaredVariables.getValue(content) != null){
+                            valueEdit.setText(String.valueOf(this.declaredVariables.getValue(content)));
+                        }
+                        editorBox1.addView(readBlock);
+                    }
+                    else if (rule.contains("+")){
+                        final Add_CustView addBlock =  new Add_CustView(MainActivity.this);
+                        EditText rightSide = (EditText) addBlock.findViewById(R.id.empty2);
+                        EditText leftSide = (EditText) addBlock.findViewById(R.id.empty1);
+                        String[] expression = rule.split(" ");
+                        rightSide.setText(expression[1]);
+                        leftSide.setText(expression[0]);
+                        editorBox1.addView(addBlock);
+                    }
+                    else if (rule.contains("-")){
+                        final Minus_CustView minusBlock =  new Minus_CustView(MainActivity.this);
+                        EditText rightSide = (EditText) minusBlock.findViewById(R.id.empty2);
+                        EditText leftSide = (EditText) minusBlock.findViewById(R.id.empty1);
+                        String[] expression = rule.split(" ");
+                        rightSide.setText(expression[1]);
+                        leftSide.setText(expression[0]);
+                        editorBox1.addView(minusBlock);
+                    }
+                    else if (rule.contains("*")){
+                        final Multiply_CustView multiBlock =  new Multiply_CustView(MainActivity.this);
+                        EditText rightSide = (EditText) multiBlock.findViewById(R.id.empty2);
+                        EditText leftSide = (EditText) multiBlock.findViewById(R.id.empty1);
+                        String[] expression = rule.split(" ");
+                        rightSide.setText(expression[1]);
+                        leftSide.setText(expression[0]);
+                        editorBox1.addView(multiBlock);
+                    }
+                    else if (rule.contains("/")){
+                        final Divide_CustView divblock =  new Divide_CustView(MainActivity.this);
+                        EditText rightSide = (EditText) divblock.findViewById(R.id.empty2);
+                        EditText leftSide = (EditText) divblock.findViewById(R.id.empty1);
+                        String[] expression = rule.split(" ");
+                        rightSide.setText(expression[1]);
+                        leftSide.setText(expression[0]);
+                        editorBox1.addView(divblock);
+                    }
+                    else if (rule.contains(">")){
+                        final MoreThan_CustView addBlock =  new MoreThan_CustView(MainActivity.this);
+                        EditText rightSide = (EditText) addBlock.findViewById(R.id.empty2);
+                        EditText leftSide = (EditText) addBlock.findViewById(R.id.empty1);
+                        String[] expression = rule.split(" ");
+                        rightSide.setText(expression[1]);
+                        leftSide.setText(expression[0]);
+                        editorBox1.addView(addBlock);
+                    }
+                    else if (rule.contains("<")){
+                        final LessThan_CustView addBlock =  new LessThan_CustView(MainActivity.this);
+                        EditText rightSide = (EditText) addBlock.findViewById(R.id.empty2);
+                        EditText leftSide = (EditText) addBlock.findViewById(R.id.empty1);
+                        String[] expression = rule.split(" ");
+                        rightSide.setText(expression[1]);
+                        leftSide.setText(expression[0]);
+                        editorBox1.addView(addBlock);
+                    }
+                    else if (rule.contains(">=")){
+                        final MoreEq_CustView addBlock =  new MoreEq_CustView(MainActivity.this);
+                        EditText rightSide = (EditText) addBlock.findViewById(R.id.empty2);
+                        EditText leftSide = (EditText) addBlock.findViewById(R.id.empty1);
+                        String[] expression = rule.split(" ");
+                        rightSide.setText(expression[1]);
+                        leftSide.setText(expression[0]);
+                        editorBox1.addView(addBlock);
+                    }
+                    else if (rule.contains("<=")){
+                        final LessEq_CustView addBlock =  new LessEq_CustView(MainActivity.this);
+                        EditText rightSide = (EditText) addBlock.findViewById(R.id.empty2);
+                        EditText leftSide = (EditText) addBlock.findViewById(R.id.empty1);
+                        String[] expression = rule.split(" ");
+                        rightSide.setText(expression[1]);
+                        leftSide.setText(expression[0]);
+                        editorBox1.addView(addBlock);
+                    }
+                    else if (rule.contains("==")){
+                        final Equal_CustView addBlock =  new Equal_CustView(MainActivity.this);
+                        EditText rightSide = (EditText) addBlock.findViewById(R.id.empty2);
+                        EditText leftSide = (EditText) addBlock.findViewById(R.id.empty1);
+                        String[] expression = rule.split(" ");
+                        rightSide.setText(expression[1]);
+                        leftSide.setText(expression[0]);
+                        editorBox1.addView(addBlock);
+                    }
+                }
             }
             it.remove();
         }
@@ -760,6 +873,7 @@ public class MainActivity extends AppCompatActivity {
                 else{
                     Boolean result = false;
                     Boolean rejected = false;
+                    System.out.println(this.currentRules.getHash().containsKey(predicate));
                     if (this.currentRules.getHash().containsKey(predicate)){
                         List<String> rulesObject = this.currentRules.getHash().get(predicate).getValue();
                         for (String rule:rulesObject){
@@ -771,6 +885,7 @@ public class MainActivity extends AppCompatActivity {
                             else{
                                 if (!rule.contains("read")){
                                     String[] expression = rule.split(" ");
+                                    System.out.println(rule);
                                     Integer opCount = 0;
                                     for (String exp:expression) {
                                         if (this.currentRules.containsOperator(exp)){
@@ -809,116 +924,171 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public Rules addPredicates(){
+        this.currentRules.clearHash();
         WriteRules write = new WriteRules(this.currentRules);
         this.currentRules.clearHash();
         Boolean makeRule = false;
-        String predicate = "";
-        for (int x = 0; x < editorBox1.getChildCount(); x++){
-            View theBlock = (View) editorBox1.getChildAt(x);
-            if (theBlock instanceof DisplaySingleConstant) {
-                DisplaySingleConstant currentBlock = (DisplaySingleConstant) theBlock;
-                EditText predicateName = (EditText) currentBlock.findViewById(R.id.pred1);
-                EditText factArgument = (EditText) currentBlock.findViewById(R.id.editConst1);
-                List<String> arguments = new ArrayList<>();
-                arguments.add(factArgument.getText().toString());
-                write.addPredicateVersion1(predicateName.getText().toString(),arguments);
+        String predicateValue = "";
+        try{
+            for (int x = 0; x < editorBox1.getChildCount(); x++){
+                View theBlock = (View) editorBox1.getChildAt(x);
+                if (theBlock instanceof DisplaySingleConstant) {
+                    if (makeRule){
+                        throw new Exception();
+                    }
+                    DisplaySingleConstant currentBlock = (DisplaySingleConstant) theBlock;
+                    EditText predicateName = (EditText) currentBlock.findViewById(R.id.pred1);
+                    EditText factArgument = (EditText) currentBlock.findViewById(R.id.editConst1);
+                    List<String> arguments = new ArrayList<>();
+                    arguments.add(factArgument.getText().toString());
+                    write.addPredicateVersion1(predicateName.getText().toString(),arguments);
+                }
+                else if (theBlock instanceof DisplayDoubleConstant){
+                    if (makeRule){
+                        throw new Exception();
+                    }
+                    DisplayDoubleConstant currentBlock = (DisplayDoubleConstant) theBlock;
+                    EditText predicateName = (EditText) currentBlock.findViewById(R.id.pred2);
+                    EditText factArgument = (EditText) currentBlock.findViewById(R.id.editConst2);
+                    EditText factArgument2 = (EditText) currentBlock.findViewById(R.id.editConst3);
+                    List<String> arguments = new ArrayList<>();
+                    arguments.add(factArgument.getText().toString());
+                    arguments.add(factArgument2.getText().toString());
+                    write.addPredicateVersion1(predicateName.getText().toString(),arguments);
+                }
+                else if (theBlock instanceof  StartClass){
+                    StartClass currentBlock = (StartClass) theBlock;
+                    EditText predicateName = (EditText) currentBlock.findViewById(R.id.start_edittext);
+                    makeRule = true;
+                    predicateValue = predicateName.getText().toString();
+                    write.addPredicateVersion2(predicateValue,null);
+                }
+                else if (theBlock instanceof WriteClass){
+                    if (!makeRule){
+                        throw new Exception();
+                    }
+                    WriteClass currentBlock = (WriteClass) theBlock;
+                    EditText writeContent = (EditText) currentBlock.findViewById(R.id.editWrite);
+                    String expression = "write('" + writeContent.getText().toString() + "')";
+                    write.addPredicateVersion2(predicateValue,expression);
+                }
+                else if (theBlock instanceof ReadClass){
+                    if (!makeRule){
+                        throw new Exception();
+                    }
+                    ReadClass currentBlock = (ReadClass) theBlock;
+                    EditText variableName = (EditText) currentBlock.findViewById(R.id.editRead1);
+                    EditText variableValue = (EditText) currentBlock.findViewById(R.id.editRead2);
+                    this.declaredVariables.declareVariable(variableName.getText().toString());
+                    try {
+                        this.declaredVariables.assgnVariable(variableName.getText().toString(),Integer.parseInt(variableValue.getText().toString()));
+                    }
+                    catch (Exception e){
+                        return null;
+                    }
+                    String expression = "read(" + variableName.getText().toString() + ")";
+                    write.addPredicateVersion2(predicateValue,expression);
+                }
+                else if (theBlock instanceof  Add_CustView){
+                    if (!makeRule){
+                        throw new Exception();
+                    }
+                    Add_CustView currentBlock = (Add_CustView) theBlock;
+                    EditText leftSide = (EditText) currentBlock.findViewById(R.id.empty1);
+                    EditText rightSide = (EditText) currentBlock.findViewById(R.id.empty2);
+                    String expression = leftSide.getText().toString() + " + " + rightSide.getText().toString();
+                    write.addPredicateVersion2(predicateValue,expression);
+                }
+                else if (theBlock instanceof Divide_CustView){
+                    if (!makeRule){
+                        throw new Exception();
+                    }
+                    Divide_CustView currentBlock = (Divide_CustView) theBlock;
+                    EditText leftSide = (EditText) currentBlock.findViewById(R.id.empty1);
+                    EditText rightSide = (EditText) currentBlock.findViewById(R.id.empty2);
+                    String expression = leftSide.getText().toString() + " / " + rightSide.getText().toString();
+                    write.addPredicateVersion2(predicateValue,expression);
+                }
+                else if (theBlock instanceof Equal_CustView){
+                    if (!makeRule){
+                        throw new Exception();
+                    }
+                    Equal_CustView currentBlock = (Equal_CustView) theBlock;
+                    EditText leftSide = (EditText) currentBlock.findViewById(R.id.empty1);
+                    EditText rightSide = (EditText) currentBlock.findViewById(R.id.empty2);
+                    String expression = leftSide.getText().toString() + " == " + rightSide.getText().toString();
+                    write.addPredicateVersion2(predicateValue,expression);
+                }
+                else if (theBlock instanceof LessEq_CustView){
+                    if (!makeRule){
+                        throw new Exception();
+                    }
+                    LessEq_CustView currentBlock = (LessEq_CustView) theBlock;
+                    EditText leftSide = (EditText) currentBlock.findViewById(R.id.empty1);
+                    EditText rightSide = (EditText) currentBlock.findViewById(R.id.empty2);
+                    String expression = leftSide.getText().toString() + " <= " + rightSide.getText().toString();
+                    write.addPredicateVersion2(predicateValue,expression);
+                }
+                else if (theBlock instanceof LessThan_CustView){
+                    if (!makeRule){
+                        throw new Exception();
+                    }
+                    LessThan_CustView currentBlock = (LessThan_CustView) theBlock;
+                    EditText leftSide = (EditText) currentBlock.findViewById(R.id.empty1);
+                    EditText rightSide = (EditText) currentBlock.findViewById(R.id.empty2);
+                    String expression = leftSide.getText().toString() + " < " + rightSide.getText().toString();
+                    write.addPredicateVersion2(predicateValue,expression);
+                }
+                else if (theBlock instanceof Minus_CustView){
+                    if (!makeRule){
+                        throw new Exception();
+                    }
+                    Minus_CustView currentBlock = (Minus_CustView) theBlock;
+                    EditText leftSide = (EditText) currentBlock.findViewById(R.id.empty1);
+                    EditText rightSide = (EditText) currentBlock.findViewById(R.id.empty2);
+                    String expression = leftSide.getText().toString() + " - " + rightSide.getText().toString();
+                    write.addPredicateVersion2(predicateValue,expression);
+                }
+                else if (theBlock instanceof MoreEq_CustView){
+                    if (!makeRule){
+                        throw new Exception();
+                    }
+                    MoreEq_CustView currentBlock = (MoreEq_CustView) theBlock;
+                    EditText leftSide = (EditText) currentBlock.findViewById(R.id.empty1);
+                    EditText rightSide = (EditText) currentBlock.findViewById(R.id.empty2);
+                    String expression = leftSide.getText().toString() + " >= " + rightSide.getText().toString();
+                    write.addPredicateVersion2(predicateValue,expression);
+                }
+                else if (theBlock instanceof MoreThan_CustView){
+                    if (!makeRule){
+                        throw new Exception();
+                    }
+                    MoreThan_CustView currentBlock = (MoreThan_CustView) theBlock;
+                    EditText leftSide = (EditText) currentBlock.findViewById(R.id.empty1);
+                    EditText rightSide = (EditText) currentBlock.findViewById(R.id.empty2);
+                    String expression = leftSide.getText().toString() + " > " + rightSide.getText().toString();
+                    write.addPredicateVersion2(predicateValue,expression);
+                }
+                else if (theBlock instanceof Multiply_CustView){
+                    if (!makeRule){
+                        throw new Exception();
+                    }
+                    Multiply_CustView currentBlock = (Multiply_CustView) theBlock;
+                    EditText leftSide = (EditText) currentBlock.findViewById(R.id.empty1);
+                    EditText rightSide = (EditText) currentBlock.findViewById(R.id.empty2);
+                    String expression = leftSide.getText().toString() + " * " + rightSide.getText().toString();
+                    write.addPredicateVersion2(predicateValue,expression);
+                }
+                else if (theBlock instanceof EndClass){
+                    makeRule = false;
+                }
             }
-            else if (theBlock instanceof DisplayDoubleConstant){
-                DisplayDoubleConstant currentBlock = (DisplayDoubleConstant) theBlock;
-                EditText predicateName = (EditText) currentBlock.findViewById(R.id.pred2);
-                EditText factArgument = (EditText) currentBlock.findViewById(R.id.editConst2);
-                EditText factArgument2 = (EditText) currentBlock.findViewById(R.id.editConst3);
-                List<String> arguments = new ArrayList<>();
-                arguments.add(factArgument.getText().toString());
-                arguments.add(factArgument2.getText().toString());
-                write.addPredicateVersion1(predicateName.getText().toString(),arguments);
-            }
-            else if (theBlock instanceof  StartClass){
-                StartClass currentBlock = (StartClass) theBlock;
-                EditText predicateName = (EditText) currentBlock.findViewById(R.id.start_edittext);
-                makeRule = true;
-                predicate = predicateName.getText().toString();
-                write.addPredicateVersion2(predicate,null);
-            }
-            else if (theBlock instanceof WriteClass){
-                WriteClass currentBlock = (WriteClass) theBlock;
-                EditText writeContent = (EditText) currentBlock.findViewById(R.id.editWrite);
-                String expression = "write('" + writeContent.getText().toString() + "')";
-                write.addPredicateVersion2(predicate,expression);
-            }
-            else if (theBlock instanceof ReadClass){
-                ReadClass currentBlock = (ReadClass) theBlock;
-                EditText variableName = (EditText) currentBlock.findViewById(R.id.editRead1);
-                EditText variableValue = (EditText) currentBlock.findViewById(R.id.editRead2);
-                declaredVariables.assgnVariable(variableName.getText().toString(),Integer.parseInt(variableValue.getText().toString()));
-                String expression = "read(" + variableName.getText().toString() + ")";
-                write.addPredicateVersion2(predicate,expression);
-            }
-            else if (theBlock instanceof  Add_CustView){
-                Add_CustView currentBlock = (Add_CustView) theBlock;
-                EditText leftSide = (EditText) currentBlock.findViewById(R.id.empty1);
-                EditText rightSide = (EditText) currentBlock.findViewById(R.id.empty2);
-                String expression = leftSide.getText().toString() + " + " + rightSide.getText().toString();
-                write.addPredicateVersion2(predicate,expression);
-            }
-            else if (theBlock instanceof Divide_CustView){
-                Divide_CustView currentBlock = (Divide_CustView) theBlock;
-                EditText leftSide = (EditText) currentBlock.findViewById(R.id.empty1);
-                EditText rightSide = (EditText) currentBlock.findViewById(R.id.empty2);
-                String expression = leftSide.getText().toString() + " / " + rightSide.getText().toString();
-                write.addPredicateVersion2(predicate,expression);
-            }
-            else if (theBlock instanceof Equal_CustView){
-                Equal_CustView currentBlock = (Equal_CustView) theBlock;
-                EditText leftSide = (EditText) currentBlock.findViewById(R.id.empty1);
-                EditText rightSide = (EditText) currentBlock.findViewById(R.id.empty2);
-                String expression = leftSide.getText().toString() + " == " + rightSide.getText().toString();
-                write.addPredicateVersion2(predicate,expression);
-            }
-            else if (theBlock instanceof LessEq_CustView){
-                LessEq_CustView currentBlock = (LessEq_CustView) theBlock;
-                EditText leftSide = (EditText) currentBlock.findViewById(R.id.empty1);
-                EditText rightSide = (EditText) currentBlock.findViewById(R.id.empty2);
-                String expression = leftSide.getText().toString() + " <= " + rightSide.getText().toString();
-                write.addPredicateVersion2(predicate,expression);
-            }
-            else if (theBlock instanceof LessThan_CustView){
-                LessThan_CustView currentBlock = (LessThan_CustView) theBlock;
-                EditText leftSide = (EditText) currentBlock.findViewById(R.id.empty1);
-                EditText rightSide = (EditText) currentBlock.findViewById(R.id.empty2);
-                String expression = leftSide.getText().toString() + " < " + rightSide.getText().toString();
-                write.addPredicateVersion2(predicate,expression);
-            }
-            else if (theBlock instanceof Minus_CustView){
-                Minus_CustView currentBlock = (Minus_CustView) theBlock;
-                EditText leftSide = (EditText) currentBlock.findViewById(R.id.empty1);
-                EditText rightSide = (EditText) currentBlock.findViewById(R.id.empty2);
-                String expression = leftSide.getText().toString() + " - " + rightSide.getText().toString();
-                write.addPredicateVersion2(predicate,expression);
-            }
-            else if (theBlock instanceof MoreEq_CustView){
-                MoreEq_CustView currentBlock = (MoreEq_CustView) theBlock;
-                EditText leftSide = (EditText) currentBlock.findViewById(R.id.empty1);
-                EditText rightSide = (EditText) currentBlock.findViewById(R.id.empty2);
-                String expression = leftSide.getText().toString() + " >= " + rightSide.getText().toString();
-                write.addPredicateVersion2(predicate,expression);
-            }
-            else if (theBlock instanceof MoreThan_CustView){
-                MoreThan_CustView currentBlock = (MoreThan_CustView) theBlock;
-                EditText leftSide = (EditText) currentBlock.findViewById(R.id.empty1);
-                EditText rightSide = (EditText) currentBlock.findViewById(R.id.empty2);
-                String expression = leftSide.getText().toString() + " > " + rightSide.getText().toString();
-                write.addPredicateVersion2(predicate,expression);
-            }
-            else if (theBlock instanceof Multiply_CustView){
-                Multiply_CustView currentBlock = (Multiply_CustView) theBlock;
-                EditText leftSide = (EditText) currentBlock.findViewById(R.id.empty1);
-                EditText rightSide = (EditText) currentBlock.findViewById(R.id.empty2);
-                String expression = leftSide.getText().toString() + " * " + rightSide.getText().toString();
-                write.addPredicateVersion2(predicate,expression);
-            }
+            return write.getRules();
         }
-        return write.getRules();
+        catch(Exception e){
+            return null;
+        }
+
     }
 }
 

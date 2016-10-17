@@ -9,11 +9,13 @@ public class TmpData implements java.io.Serializable{
     private String query;
     private String console;
     private MetaData metaData;
-    public TmpData(Rules currentRules, String query, String console, MetaData metaData){
+    private DeclaredVariables declaredVariables;
+    public TmpData(Rules currentRules, String query, String console, MetaData metaData, DeclaredVariables declaredVariables){
         this.currentRules = currentRules;
         this.query = query;
         this.console = console;
         this.metaData = metaData;
+        this.declaredVariables = declaredVariables;
     }
 
     public Rules getRules(){
@@ -30,5 +32,9 @@ public class TmpData implements java.io.Serializable{
 
     public MetaData getMetaData(){
         return this.metaData;
+    }
+
+    public DeclaredVariables getDeclaredVariables() {
+        return this.declaredVariables;
     }
 }

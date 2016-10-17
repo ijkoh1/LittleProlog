@@ -46,6 +46,7 @@ public class SaveFile {
             for (String line: content) {
                 prologString += line + "\n";
             }
+            System.out.println(prologString);
             OutputStreamWriter outputStreamWriter = new OutputStreamWriter(fout);
             outputStreamWriter.write(prologString);
             outputStreamWriter.close();
@@ -76,6 +77,18 @@ public class SaveFile {
                         subline += line + objectValue.get(0) + "," + objectValue.get(1) + ").";
                     }
                     result.add(subline);
+                }
+            }
+            else if (pair.getValue() instanceof MakeFacts){
+                result.add(predicate + ":-");
+                for (int i = 0; i < ((MakeFacts) pair.getValue()).getValue().size(); i++){
+                    String rule = ((MakeFacts) pair.getValue()).getValue().get(i);
+                    if (i == ((MakeFacts) pair.getValue()).getValue().size()-1){
+                        result.add(rule + '.');
+                    }
+                    else{
+                        result.add(rule + ",");
+                    }
                 }
             }
         }

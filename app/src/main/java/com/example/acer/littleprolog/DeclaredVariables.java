@@ -6,7 +6,7 @@ import java.util.HashMap;
  * Created by Acer on 29/9/2016.
  */
 
-public class DeclaredVariables {
+public class DeclaredVariables implements java.io.Serializable{
     // A dictionary to store the values and names of the variable.
     // Each variable names are unique and must have a value
     private HashMap<String,Integer> variableDict;
