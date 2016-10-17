@@ -35,6 +35,5 @@ public class Driver {
         ReadRules fileRead = new ReadRules("example1");
         rules = fileRead.read(rules);
         LittleProlog lp = new LittleProlog(rules);
-        lp.run();
     }
 }
