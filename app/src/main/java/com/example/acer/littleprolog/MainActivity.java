@@ -46,18 +46,6 @@ public class MainActivity extends AppCompatActivity {
     String predicate = "";
     Integer count = 0;
 
-    /*//initialize all operaton custom view
-    public Equal_CustView equalCView = new Equal_CustView(MainActivity.this);
-    public LessThan_CustView lessthanCView = new LessThan_CustView(MainActivity.this);
-    public LessEq_CustView lessEqCView = new LessEq_CustView(MainActivity.this);
-    public MoreThan_CustView morethanCView = new MoreThan_CustView(MainActivity.this);
-    public MoreEq_CustView moreEqCView = new MoreEq_CustView(MainActivity.this);
-    public Add_CustView addCView = new Add_CustView(MainActivity.this);
-    public Minus_CustView minusCView = new Minus_CustView(MainActivity.this);
-    public Multiply_CustView multCView = new Multiply_CustView(MainActivity.this);
-    public Divide_CustView divideCView = new Divide_CustView(MainActivity.this);*/
-
-
     //set public class for long click (this will be called by delete button, so that when
     //user long press on the block, the delete button can delete the long-pressed item.
     public class selectLongClick implements View.OnLongClickListener{
@@ -392,7 +380,6 @@ public class MainActivity extends AppCompatActivity {
                 ClipData data = ClipData.newPlainText("", "");
                 View.DragShadowBuilder shadowBuilder = new View.DragShadowBuilder(view);
                 view.startDrag(data, shadowBuilder, view, 0);
-                view.setVisibility(View.VISIBLE);
                 return true;
             } else {
                 return false;
@@ -425,8 +412,8 @@ public class MainActivity extends AppCompatActivity {
                 case DragEvent.ACTION_DROP:
                     // Dropped, reassign View to ViewGroup
                     View view = (View) event.getLocalState();
-                    ViewGroup owner = (ViewGroup) view.getParent();
-                    owner.removeView(view);
+                    //ViewGroup owner = (ViewGroup) view.getParent();
+                    //owner.removeView(view);
                     /*LinearLayout container = (LinearLayout) v;
                     container.addView(view);
                     view.setVisibility(View.VISIBLE);*/
