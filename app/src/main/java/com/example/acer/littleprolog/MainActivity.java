@@ -394,16 +394,15 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public class MyDragListener implements View.OnDragListener {
-
-        Equal_CustView equalCView = new Equal_CustView(MainActivity.this);
-        LessThan_CustView lessthanCView = new LessThan_CustView(MainActivity.this);
-        LessEq_CustView lessEqCView = new LessEq_CustView(MainActivity.this);
-        MoreThan_CustView morethanCView = new MoreThan_CustView(MainActivity.this);
-        MoreEq_CustView moreEqCView = new MoreEq_CustView(MainActivity.this);
-        Add_CustView addCView = new Add_CustView(MainActivity.this);
-        Minus_CustView minusCView = new Minus_CustView(MainActivity.this);
-        Multiply_CustView multCView = new Multiply_CustView(MainActivity.this);
-        Divide_CustView divideCView = new Divide_CustView(MainActivity.this);
+//        Equal_CustView equalCView = new Equal_CustView(MainActivity.this);
+//        LessThan_CustView lessthanCView = new LessThan_CustView(MainActivity.this);
+//        LessEq_CustView lessEqCView = new LessEq_CustView(MainActivity.this);
+//        MoreThan_CustView morethanCView = new MoreThan_CustView(MainActivity.this);
+//        MoreEq_CustView moreEqCView = new MoreEq_CustView(MainActivity.this);
+//        Add_CustView addCView = new Add_CustView(MainActivity.this);
+//        Minus_CustView minusCView = new Minus_CustView(MainActivity.this);
+//        Multiply_CustView multCView = new Multiply_CustView(MainActivity.this);
+//        Divide_CustView divideCView = new Divide_CustView(MainActivity.this);
 
         @Override
         public boolean onDrag(View v, DragEvent event) {
@@ -418,6 +417,7 @@ public class MainActivity extends AppCompatActivity {
                 case DragEvent.ACTION_DROP:
                     // Dropped, reassign View to ViewGroup
                     View view = (View) event.getLocalState();
+
                     //ViewGroup owner = (ViewGroup) view.getParent();
                     //owner.removeView(view);
                     /*LinearLayout container = (LinearLayout) v;
@@ -434,53 +434,89 @@ public class MainActivity extends AppCompatActivity {
                     int divID = div_btn.getId();
 
                     if (view.getId() == eqID){
-                        editorBox1.addView(equalCView);
+                        Equal_CustView equal_custView = new Equal_CustView(MainActivity.this);
+                        equal_custView.setOnTouchListener(new MyTouchListener());
+                        equal_custView.findViewById(R.id.empty2).setOnDragListener(new MyDragListener());
+                        ViewGroup viewGroup = (ViewGroup) v;
+                        viewGroup.addView(equal_custView);
                         break;
                     }
 
                     if (view.getId() == ltID){
-                        editorBox1.addView(lessthanCView);
+                        LessThan_CustView lessThanView = new LessThan_CustView(MainActivity.this);
+                        lessThanView.setOnTouchListener(new MyTouchListener());
+                        lessThanView.findViewById(R.id.empty2).setOnDragListener(new MyDragListener());
+                        ViewGroup viewGroup = (ViewGroup) v;
+                        viewGroup.addView(lessThanView);
                         break;
                     }
 
                     if (view.getId() == ltEqID){
-                        editorBox1.addView(lessEqCView);
+                        LessEq_CustView lessThanEqView = new LessEq_CustView(MainActivity.this);
+                        lessThanEqView.setOnTouchListener(new MyTouchListener());
+                        lessThanEqView.findViewById(R.id.empty2).setOnDragListener(new MyDragListener());
+                        ViewGroup viewGroup = (ViewGroup) v;
+                        viewGroup.addView(lessThanEqView);
                         break;
                     }
 
 
                     if (view.getId() == gtID){
-                        editorBox1.addView(morethanCView);
+                        MoreThan_CustView moreThanView = new MoreThan_CustView(MainActivity.this);
+                        moreThanView.setOnTouchListener(new MyTouchListener());
+                        moreThanView.findViewById(R.id.empty2).setOnDragListener(new MyDragListener());
+                        ViewGroup viewGroup = (ViewGroup) v;
+                        viewGroup.addView(moreThanView);
                         break;
                     }
 
 
                     if (view.getId() == gtEqID){
-                        editorBox1.addView(moreEqCView);
+                        MoreEq_CustView moreEq_custView = new MoreEq_CustView(MainActivity.this);
+                        moreEq_custView.setOnTouchListener(new MyTouchListener());
+                        moreEq_custView.findViewById(R.id.empty2).setOnDragListener(new MyDragListener());
+                        ViewGroup viewGroup = (ViewGroup) v;
+                        viewGroup.addView(moreEq_custView);
                         break;
                     }
 
 
                     if (view.getId() == addID){
-                        editorBox1.addView(addCView);
+                        Add_CustView add_custView = new Add_CustView(MainActivity.this);
+                        add_custView.setOnTouchListener(new MyTouchListener());
+                        add_custView.findViewById(R.id.empty2).setOnDragListener(new MyDragListener());
+                        ViewGroup viewGroup = (ViewGroup) v;
+                        viewGroup.addView(add_custView);
                         break;
                     }
 
 
                     if (view.getId() == minusID){
-                        editorBox1.addView(minusCView);
+                        Minus_CustView minusView = new Minus_CustView(MainActivity.this);
+                        minusView.setOnTouchListener(new MyTouchListener());
+                        minusView.findViewById(R.id.empty2).setOnDragListener(new MyDragListener());
+                        ViewGroup viewGroup = (ViewGroup) v;
+                        viewGroup.addView(minusView);
                         break;
                     }
 
 
                     if (view.getId() == multID){
-                        editorBox1.addView(multCView);
+                        Multiply_CustView multiply_custView = new Multiply_CustView(MainActivity.this);
+                        multiply_custView.setOnTouchListener(new MyTouchListener());
+                        multiply_custView.findViewById(R.id.empty2).setOnDragListener(new MyDragListener());
+                        ViewGroup viewGroup = (ViewGroup) v;
+                        viewGroup.addView(multiply_custView);
                         break;
                     }
 
 
                     if (view.getId() == divID){
-                        editorBox1.addView(divideCView);
+                        Divide_CustView divide_custView = new Divide_CustView(MainActivity.this);
+                        divide_custView.setOnTouchListener(new MyTouchListener());
+                        divide_custView.findViewById(R.id.empty2).setOnDragListener(new MyDragListener());
+                        ViewGroup viewGroup = (ViewGroup) v;
+                        viewGroup.addView(divide_custView);
                         break;
                     }
 
