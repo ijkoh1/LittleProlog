@@ -14,12 +14,11 @@ import static java.lang.Character.isUpperCase;
 *   @version: 1
 * */
 
-
+/**
+ * @author: Ivan
+ * @purpose: To have the basic implementation of little prolog such as running query request from the user
+ * */
 public class LittleProlog {
-    /**
-     * @author: Ivan
-     * @purpose: To have the basic implementation of little prolog such as running query request from the user
-     * */
     private Rules rules;
     private Integer queryCount;
     private String answer;
@@ -29,27 +28,27 @@ public class LittleProlog {
         this.answer = "";
     }
 
+    /*
+    @desc: Asks users for query
+    @param: None
+    @pre: None
+    @post: A query is asked
+    :return: User's input as an answer
+    */
     public void query(){
-        /*
-        @desc: Asks users for query
-        @param: None
-        @pre: None
-        @post: A query is asked
-        :return: User's input as an answer
-        */
         Scanner input = new Scanner(System.in);
         System.out.print("? - ");
         this.answer = input.next();
     }
 
+    /*
+    @desc: Runs the prolog class and accepts input and checks rules yes/no
+    @param: None
+    @pre: None
+    @post: Runs functions of prolog
+    :return: None
+    */
     public String runQuery(String query, String predicate, Integer count){
-        /*
-        @desc: Runs the prolog class and accepts input and checks rules yes/no
-        @param: None
-        @pre: None
-        @post: Runs functions of prolog
-        :return: None
-        */
         List<String> objects = new ArrayList<>();
         Boolean twoParameters = false;
         Boolean specialQuery = false;

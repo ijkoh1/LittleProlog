@@ -7,14 +7,27 @@ import java.io.ObjectInputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by Acer on 14/10/2016.
- */
+/*  @AUTHOR: IVAN KOH
+*   @DATE CREATED: 29 SEPT 2016
+*   @DATE MODIFIED: 14 OCT 2016
+*   @status: "Prototype"
+*   @version: 1
+* */
 
+/**
+ * @author: Ivan
+ * @purpose: To load the file which was saved
+ * */
 public class LoadFile {
+    /*
+    @desc: Loads the program of the application
+    @param: fileName = A string which stores the file name, context = An object from MainActivity which needs to be loaded
+    @pre: None
+    @post: The program is load
+    :return: The new data loaded from the serialized file
+    */
     public TmpData program(String fileName, MainActivity context){
         try{
-//            FileInputStream fin = new FileInputStream(fileName + ".ser");
             FileInputStream fin = context.openFileInput(fileName+".ser");
             ObjectInputStream in = new ObjectInputStream(fin);
             TmpData newData = null;
@@ -28,9 +41,15 @@ public class LoadFile {
         }
     }
 
+    /*
+    @desc: Loads the prolog file of the application
+    @param: fileName = A string which stores the file name, context = An object fomr MainActivity which needs to be loaded
+    @pre: None
+    @post: The prolog file is load
+    :return: The new prolog data loaded from the pl file
+    */
     public Rules prolog(String fileName, MainActivity context){
         try{
-//            FileInputStream fin = new FileInputStream(fileName + ".ser");
             FileInputStream fin = context.openFileInput(fileName+".pl");
             InputStreamReader inputReader = new InputStreamReader(fin);
             BufferedReader br = new BufferedReader(inputReader);

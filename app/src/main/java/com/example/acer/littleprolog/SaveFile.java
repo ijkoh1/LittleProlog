@@ -1,7 +1,8 @@
 package com.example.acer.littleprolog;
 
 /**
- * Created by Acer on 10/10/2016.
+ * Created by Ivan on 10/10/2016.
+ * Purpose: To save the program file into .ser files or .pl files
  */
 import android.content.Context;
 import android.media.MediaScannerConnection;
@@ -18,13 +19,25 @@ import java.util.Map;
 
 public class SaveFile {
     private TmpData data;
+    /*
+    @desc: Initialises the data which needs to save
+    @param: prologData = a TmpData object which needs to be saved
+    @pre: None
+    @post: The program needs to be initialised
+    */
     public SaveFile(TmpData prologData){
         this.data = prologData;
     }
 
+    /*
+    @desc: Saves the program of the application
+    @param: fileName = A string which stores the file name, context = An object from MainActivity which needs to be loaded
+    @pre: None
+    @post: The program is saved
+    :return: The new data saved to a serialized file
+    */
     public Boolean saveProgram(String fileName, MainActivity context){
         try{
-//            FileOutputStream fout = new FileOutputStream(fileName + ".ser");
             FileOutputStream fout = context.openFileOutput(fileName + ".ser", Context.MODE_PRIVATE);
             ObjectOutputStream out = new ObjectOutputStream(fout);
             out.writeObject(this.data);
@@ -37,9 +50,15 @@ public class SaveFile {
         }
     }
 
+    /*
+    @desc: Saves a prolog file of the application
+    @param: fileName = A string which stores the file name, context = An object from MainActivity which needs to be loaded
+    @pre: None
+    @post: The program is saved
+    :return: The new data saved to a prolog file
+    */
     public Boolean saveProlog(String fileName, MainActivity context){
         try{
-//            FileOutputStream fout = new FileOutputStream(fileName + ".ser");
             FileOutputStream fout = context.openFileOutput(fileName + ".pl", Context.MODE_PRIVATE);
             String prologString = "";
             List<String> content = writeProlog();
