@@ -379,6 +379,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    //to set listener for draggable objects
     public class MyTouchListener implements View.OnTouchListener {
         @Override
         public boolean onTouch(View view, MotionEvent motionEvent) {
@@ -404,6 +405,7 @@ public class MainActivity extends AppCompatActivity {
 //        Multiply_CustView multCView = new Multiply_CustView(MainActivity.this);
 //        Divide_CustView divideCView = new Divide_CustView(MainActivity.this);
 
+        //on drag listener to setup drop environment for draggable objects
         @Override
         public boolean onDrag(View v, DragEvent event) {
             int action = event.getAction();

@@ -1,13 +1,15 @@
+/*  @AUTHOR: SEONG HAN
+*   @DATE CREATED: 16 OCT 2016
+*   @DATE MODIFIED: 19 OCT 2016
+*   @PURPOSE: This is the custom view class to less than operator box.
+* */
+
 package com.example.acer.littleprolog;
 
 import android.content.Context;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
-/**
- * Created by Seong Han on 16-Oct-16.
- */
 
 public class LessThan_CustView extends RelativeLayout{
 
